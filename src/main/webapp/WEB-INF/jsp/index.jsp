@@ -28,6 +28,8 @@ Show all users
     </td>
 </form>
 
+<a href="welcome.jsp">ajax</a>
+
 
 </body>
 </html>

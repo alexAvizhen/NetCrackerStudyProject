@@ -8,8 +8,8 @@ import com.avizhen.repository.CarRepository;
 import com.avizhen.repository.ItemRepository;
 import com.avizhen.repository.OrderRepository;
 import com.avizhen.repository.UserRepository;
-import com.avizhen.rest.entity.Rate;
-import com.avizhen.rest.service.RateService;
+import com.avizhen.restws.entity.Rate;
+import com.avizhen.restws.service.RateService;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -107,6 +107,10 @@ public class MainController {
         return model;
     }
 
+    @RequestMapping(value = "/testajax", method = RequestMethod.GET)
+    public String printAjax() {
+        return "welcome";
+    }
 
 
 

@@ -1,5 +1,7 @@
 package com.avizhen.entity;
 
+import com.avizhen.web.jsonview.Views;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -29,15 +31,18 @@ public class User {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @JsonView(Views.Public.class)
     @Column(name = "surname", nullable = false)
     private String surname;
 
+    @JsonView(Views.Public.class)
     @Column(name = "email", nullable = false)
     private String email;
 
     @Column(name = "address")
     private String address;
 
+    @JsonView(Views.Public.class)
     @Column(name = "phone")
     private String phone;
 
