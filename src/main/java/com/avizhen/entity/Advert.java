@@ -60,7 +60,7 @@ public class Advert {
     public String toString() {
         return "Advert{" +
                 "id=" + id +
-                ", car=" + car +
+                //", car=" + car +
                 ", description='" + description + '\'' +
                 '}';
     }

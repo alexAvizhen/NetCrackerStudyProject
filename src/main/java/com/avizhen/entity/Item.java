@@ -4,14 +4,13 @@ package com.avizhen.entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 /**
  * Created by Александр on 19.10.2016.
  */
 @Entity
 @Table(name = "item")
-public class Item implements Serializable {
+public class Item{
     @Id
     @GenericGenerator(name="CUST_GEN" , strategy="increment")
     @GeneratedValue(generator="CUST_GEN")

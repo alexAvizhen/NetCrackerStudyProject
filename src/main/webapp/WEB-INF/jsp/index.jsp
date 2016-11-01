@@ -8,10 +8,26 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Example :: Spring Application</title>
+    <title>Main page</title>
 </head>
 <body>
-    <h1>Example - Spring Application</h1>
-    <p>This is my test.</p>
+
+Show today rate
+<form method="GET" action="/rate">
+    <td>
+        <input type="text" name="currencyAbbreviation" value="RUB">
+    </td>
+    <td>
+        <input type="submit" value="submit"/>
+    </td>
+</form>
+Show all users
+<form method="GET" action="/user">
+    <td>
+        <input type="submit" value="submit"/>
+    </td>
+</form>
+
+
 </body>
 </html>

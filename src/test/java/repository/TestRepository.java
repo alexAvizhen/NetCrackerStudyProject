@@ -170,6 +170,30 @@ public class TestRepository {
         LOG.info("Order was deleted successful");
     }
 
+    @Test
+    @Ignore
+    public void addOrderToUser() {
+        tempCar = CarFactory.createCar("Omega", "Opel");
+        carRepository.save(tempCar);
+
+        tempCar = CarFactory.createCar("6", "Mazda");
+        carRepository.save(tempCar);
+
+        tempCar = CarFactory.createCar("Megane", "Renault");
+        carRepository.save(tempCar);
+
+        tempCar = CarFactory.createCar("A7", "Audi");
+        carRepository.save(tempCar);
+    }
+
+    /*@Resource
+    private RateService rateService;
+    @Test
+    public void testRest() {
+        Rate rate = rateService.getRate("RUB", LocalDate.now());
+        LOG.info(rate);
+    }*/
+
     @Ignore
     @Test
     public void testClearTables() {

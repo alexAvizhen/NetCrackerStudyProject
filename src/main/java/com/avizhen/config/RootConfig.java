@@ -74,6 +74,7 @@ public class RootConfig {
     }
 
 
+
     private Properties getHibernateProperties() {
         Properties properties = new Properties();
         properties.put(PROP_HIBERNATE_DIALECT, env.getRequiredProperty(PROP_HIBERNATE_DIALECT));

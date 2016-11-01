@@ -19,7 +19,7 @@
         <spring.mvc>4.3.3.RELEASE</spring.mvc>
         <spring.test>4.3.3.RELEASE</spring.test>
         <javax.servlet>3.0.1</javax.servlet>
-        <jdk.version>1.7</jdk.version>
+        <jdk.version>1.8</jdk.version>
         <jstl.version>1.2</jstl.version>
         <context.path>spring-mvc</context.path>
     </properties>
@@ -159,37 +159,37 @@
     </dependencies>
 
     <build>
-    <plugins>
+        <plugins>
 
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.3</version>
-            <configuration>
-                <source>${jdk.version}</source>
-                <target>${jdk.version}</target>
-            </configuration>
-        </plugin>
-        <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-                <source>1.7</source>
-                <target>1.7</target>
-            </configuration>
-        </plugin>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-war-plugin</artifactId>
-            <version>2.4</version>
-            <configuration>
-                <warName>${context.path}</warName>
-                <failOnMissingWebXml>false</failOnMissingWebXml>
-            </configuration>
-        </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <warName>${context.path}</warName>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
 
 
 
-    </plugins>
+        </plugins>
     </build>
 
 

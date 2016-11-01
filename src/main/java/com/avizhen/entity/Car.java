@@ -143,4 +143,17 @@ public class Car {
     public void setItems(Set<Item> items) {
         this.items = items;
     }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "id=" + id +
+                ", model='" + model + '\'' +
+                ", make='" + make + '\'' +
+                ", price=" + price +
+                ", date=" + date +
+                ", carCondition='" + carCondition + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }
