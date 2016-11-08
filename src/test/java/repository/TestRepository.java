@@ -22,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * Created by Александр on 25.10.2016.
@@ -61,7 +63,7 @@ public class TestRepository {
 
 
     @Test
-    //@Transactional
+    @Transactional
     public void testSaveUserAndDelete() {
         LOG.info("Start saving user ...");
         tempUser.getRole().setRole("dsas");
@@ -94,7 +96,7 @@ public class TestRepository {
         userRepository.delete(userId);
         Order checkOrder = orderRepository.findOne(orderId);
         Assert.assertNull(checkOrder);
-        Order checkUser = orderRepository.findOne(userId);
+        User checkUser = userRepository.findOne(userId);
         Assert.assertNull(checkUser);
         LOG.info("Order and user was deleted successful");
     }
@@ -173,17 +175,31 @@ public class TestRepository {
     @Test
     @Ignore
     public void addOrderToUser() {
-        tempCar = CarFactory.createCar("Omega", "Opel");
-        carRepository.save(tempCar);
+        tempUser = userRepository.findOne(5);
+        tempOrder.setUser(tempUser);
+        orderRepository.save(tempOrder);
 
-        tempCar = CarFactory.createCar("6", "Mazda");
-        carRepository.save(tempCar);
+        tempOrder = OrderFactory.createOrder("abc");
+        tempOrder.setUser(tempUser);
+        orderRepository.save(tempOrder);
+        tempOrder = OrderFactory.createOrder("abc");
+        tempOrder.setUser(tempUser);
+        orderRepository.save(tempOrder);
+        tempOrder = OrderFactory.createOrder("abc");
+        tempOrder.setUser(tempUser);
+        orderRepository.save(tempOrder);
+    }
 
-        tempCar = CarFactory.createCar("Megane", "Renault");
-        carRepository.save(tempCar);
+    @Autowired
+    private CarImageRepository carImageRepository;
 
-        tempCar = CarFactory.createCar("A7", "Audi");
-        carRepository.save(tempCar);
+    @Test
+    @Ignore
+    public void addAdverts() throws IOException, SQLException {
+        CarImage carImage = new CarImage();
+        carImage.setCar(carRepository.findOne(1));
+        carImage.setCarImagePath("/resources/images/car.png");
+        carImageRepository.save(carImage);
     }
 
     /*@Resource
@@ -197,7 +213,6 @@ public class TestRepository {
     @Ignore
     @Test
     public void testClearTables() {
-
         orderRepository.deleteAll();
         userRepository.deleteAll();
         advertRepository.deleteAll();

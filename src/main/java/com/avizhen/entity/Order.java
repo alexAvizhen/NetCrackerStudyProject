@@ -1,5 +1,7 @@
 package com.avizhen.entity;
 
+import com.avizhen.web.jsonview.Views;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -15,6 +17,7 @@ import java.util.Set;
 @Table(name = "userorder")
 public class Order {
     @Id
+    @JsonView(Views.Public.class)
     @GenericGenerator(name = "CUST_GEN", strategy = "increment")
     @GeneratedValue(generator = "CUST_GEN")
     @Column(name = "id")
@@ -26,8 +29,10 @@ public class Order {
 
     @Column(name = "reg_date")
     @Type(type = "date")
+    @JsonView(Views.Public.class)
     private Date registrationDate;
 
+    @JsonView(Views.Public.class)
     @Column(name = "status")
     private String status;
 

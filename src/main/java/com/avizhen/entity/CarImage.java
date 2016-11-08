@@ -1,10 +1,11 @@
 package com.avizhen.entity;
 
 
+import com.avizhen.web.jsonview.Views;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.sql.Blob;
 
 /**
  * Created by Александр on 25.10.2016.
@@ -17,10 +18,12 @@ public class CarImage {
     @GenericGenerator(name = "CUST_GEN", strategy = "increment")
     @GeneratedValue(generator = "CUST_GEN")
     @Column(name = "id")
+    @JsonView(Views.Public.class)
     private Integer id;
 
     @Column(name = "car_image", nullable = false)
-    private Blob carImage;
+    @JsonView(Views.Public.class)
+    private String carImagePath;
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "car_id")
@@ -29,8 +32,8 @@ public class CarImage {
     public CarImage() {
     }
 
-    public CarImage(Blob carImage, Car car) {
-        this.carImage = carImage;
+    public CarImage(String carImagePath, Car car) {
+        this.carImagePath = carImagePath;
         this.car = car;
     }
 
@@ -42,12 +45,12 @@ public class CarImage {
         this.id = id;
     }
 
-    public Blob getCarImage() {
-        return carImage;
+    public String getCarImagePath() {
+        return carImagePath;
     }
 
-    public void setCarImage(Blob carImage) {
-        this.carImage = carImage;
+    public void setCarImagePath(String carImagePath) {
+        this.carImagePath = carImagePath;
     }
 
     public Car getCar() {

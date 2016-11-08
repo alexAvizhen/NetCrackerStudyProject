@@ -1,5 +1,7 @@
 package com.avizhen.entity;
 
+import com.avizhen.web.jsonview.Views;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -14,13 +16,16 @@ public class Advert {
     @GenericGenerator(name="CUST_GEN" , strategy="increment")
     @GeneratedValue(generator="CUST_GEN")
     @Column(name = "id")
+    @JsonView(Views.Public.class)
     private Integer id;
 
     @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "car_id")
+    @JsonView(Views.Public.class)
     private Car car;
 
     @Column(name = "description")
+    @JsonView(Views.Public.class)
     private String description;
 
 

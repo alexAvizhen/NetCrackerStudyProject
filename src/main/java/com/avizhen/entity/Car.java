@@ -1,5 +1,7 @@
 package com.avizhen.entity;
 
+import com.avizhen.web.jsonview.Views;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -18,15 +20,19 @@ public class Car {
     @GenericGenerator(name="CUST_GEN" , strategy="increment")
     @GeneratedValue(generator="CUST_GEN")
     @Column(name = "id")
+    @JsonView(Views.Public.class)
     private Integer id;
 
     @Column(name = "model", nullable = false)
+    @JsonView(Views.Public.class)
     private String model;
 
     @Column(name = "make", nullable = false)
+    @JsonView(Views.Public.class)
     private String make;
 
     @Column(name = "price")
+    @JsonView(Views.Public.class)
     private Integer price;
 
     @Column(name = "date")
@@ -34,12 +40,14 @@ public class Car {
     private Date date;
 
     @Column(name = "car_condition")
+    @JsonView(Views.Public.class)
     private String carCondition;
 
     @Column(name = "description")
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "car", cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH})
+    @JsonView(Views.Public.class)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "car", cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH})
     Set<CarImage> images = new HashSet<CarImage>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "car", cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH})
