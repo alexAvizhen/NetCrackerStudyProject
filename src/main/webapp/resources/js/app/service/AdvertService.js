@@ -7,7 +7,19 @@ var AdvertService = (function () {
         loadAdverts: function (callback) {
             $.ajax({
                 url: "/api/advert",
-                type: "GET",
+                method: "GET",
+                success: function (data) {
+                    callback(data);
+                },
+                error: function () {
+                    console.error("cannot load adverts");
+                }
+            });
+        },
+        loadAdvert: function (advertId, callback) {
+            $.ajax({
+                url: "/api/advert/" + advertId,
+                method: "GET",
                 success: function (data) {
                     callback(data);
                 },
@@ -16,7 +28,6 @@ var AdvertService = (function () {
                 }
             });
         }
-
     };
 
     return methods;

@@ -14,7 +14,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Users</title>
+    <title>Adverts</title>
 
     <c:url var="home" value="/" scope="request" />
 
@@ -27,6 +27,13 @@
     <spring:url value="/resources/js/lib/jquery.1.10.2.min.js"
                 var="jqueryJs" />
     <script src="${jqueryJs}"></script>
+
+
+    <script type="text/javascript" src="<c:url value="/resources/js/app/service/AdvertService.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/app/controller/AdvertsController.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/app/controller/RateController.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/app/service/RateService.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/app/service/CarService.js" />"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -48,15 +55,15 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#"> Company logo</a>
+                    <a class="navbar-brand" href="/"> Company logo</a>
                 </div>
                 <div class="collapse navbar-collapse" id="responsive-menu">
                     <ul class="nav navbar-nav">
-                        <li><a href="#">Главная</a> </li>
-                        <li><a href="#">Объявления</a> </li>
+                        <li><a href="/">Главная</a> </li>
+                        <li><a href="/advert">Объявления</a></li>
                         <li><a href="#">Акции и скидки</a> </li>
                         <li><a href="#">Контакты</a> </li>
-                        <li><a href="#">Корзина</a> </li>
+                        <li><a href="#">Корзина<span class="badge">3</span></a></li>
                     </ul>
                 </div>
             </div>
@@ -67,87 +74,24 @@
 
 <div class="container">
     <div class="row">
-        <h3>Users</h3>
+        <h3>Adverts</h3>
     </div>
 </div>
-<c:if test="${not empty users}">
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Surname</th>
-                <th>Login</th>
-                <th>Emai</th>
-                <th>Orders</th>
-            </tr>
-            </thead>
-            <tbody>
-            <input type="hidden" id="usr" name="usr" value="${users}">
-            <c:forEach items="${users}" var="user">
-                <tr>
-                    <td>${user.name}</td>
-                    <td>${user.surname}</td>
-                    <td>${user.login}</td>
-                    <td>${user.email}</td>
-                    <td>
-                        <div id="feedback${user.id}"></div>
-                        <button  class="btn btn-primary" type="button" id="${user.id}"
-                                 data-pid="${user.id}"> Get orders</button>
-                    </td>
-                </tr>
-                </c:forEach>
-            </tbody>
-        </table>
-</c:if>
 
-<script>
-    $(document).ready(function() {
-        $("[data-pid]").bind("click", function(event) {
-            event.preventDefault();
-            var pid = $(this).data("pid");
-            alert(pid);
-            var search = {};
-            search["userId"] = pid;
-            alert(search);
-            alert(search.userId);
-            $.ajax({
-                type : "POST",
-                contentType : "application/json",
-                url : "${home}search/api/getUserOrders",
-                data : JSON.stringify(search),
-                dataType : 'json',
-                timeout : 100000,
-                success : function(data) {
-                    console.log("SUCCESS: ", data);
-                    display(data, pid);
-                },
-                error : function(e) {
-                    console.log("ERROR: ", e);
-                    display(e, pid);
-                },
-                done : function(e) {
-                    console.log("DONE");
-                }
-            });
-        });
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-lg-9" id="advertContainer">
 
+        </div>
+        <div class="col-md-4 col-lg-3" id="rateContainer">
 
-    });
+        </div>
+    </div>
+</div>
 
-    function display(data, pid) {
-        alert(data.result);
-        alert(data.result.length);
-        var json = "<h4>Ajax Response</h4><pre>"
-                + JSON.stringify(data, null, 4) + "</pre>";
-        var feedbackId = "#feedback" + pid;
-        $(feedbackId).html(json);
-
-    }
-
-</script>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="/resources/js/lib/bootstrap.js"></script>
 </body>

@@ -28,11 +28,11 @@
                 var="jqueryJs" />
     <script src="${jqueryJs}"></script>
 
-
+    <script type="text/javascript" src="<c:url value="/resources/js/app/service/CarService.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/app/service/AdvertService.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/app/controller/AdvertController.js" />"></script>
-    <script type="text/javascript" src="<c:url value="/resources/js/app/controller/RateController.js" />"></script>
-    <script type="text/javascript" src="<c:url value="/resources/js/app/service/RateService.js" />"></script>
+
+
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -73,13 +73,13 @@
 
 <div class="container">
     <div class="row">
-        <h3>Adverts</h3>
+        <h3>The advert</h3>
     </div>
 </div>
 
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-lg-9" id="advertContainer">
+        <div class="col-md-8 col-lg-9" id="advertContainer" advert-id="${advertId}">
 
         </div>
         <div class="col-md-4 col-lg-3" id="rateContainer">

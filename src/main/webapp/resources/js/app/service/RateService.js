@@ -7,7 +7,7 @@ var RateService = (function () {
         loadRates: function (callback) {
             $.ajax({
                 url: "/api/rate",
-                type: "GET",
+                method: "GET",
                 success: function (data) {
                     callback(data);
                 },

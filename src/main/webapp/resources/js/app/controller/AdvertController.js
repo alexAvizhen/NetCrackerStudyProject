@@ -1,61 +1,73 @@
 /**
- * Created by Александр on 07.11.2016.
+ * Created by Александр on 09.11.2016.
  */
 $(function () {
 
     var advertCtrl = (function () {
-        var adverts;
+        var advert;
         var methods = {
             init: function () {
-                this.showAdverts();
+                this.showAdvert();
             },
-            showAdverts: function () {
-                AdvertService.loadAdverts(function (data) {
-                    adverts = data;
-                    render(adverts);
+            showAdvert: function () {
+                AdvertService.loadAdvert($("#advertContainer").attr("advert-id"), function (data) {
+                    advert = data;
+                    render(advert);
                 });
             }
 
         };
 
-        function createPanel(description, id, car) {
-            var $panel = $('<div>', {class: 'panel panel-default', id: 'panel' + id});
+        function createPanel(advert) {
+            var $panel = $('<div>', {class: 'panel panel-default', id: 'panel' + advert.id});
             var $body = $('<div>', {class: 'panel-body'});
-            var $content = $('<a>', {href: "/../Sample/car?user_id=" + id});
-            var $button = $('<button>', {type: "button", class: "close remove"});
-            var $symbol = String.fromCharCode(215);
-            var $span = $('<span aria-hidden="true">');
-            if(car.images.length > 0) {
-                var image = document.createElement('img');
-                var imgSrc = car.images[0].carImagePath;
-                image.src = "../.." + imgSrc;
-                image.width=100;
-                image.height=100;
-                image.alt="here should be some image";
-            }
+            var $content = $('<div>', {class: 'row'});
+            var imageDiv1 = $('<div>', {class: 'col-md-5 col-lg-5'});
+            var imageDiv2 = $('<div>', {class: 'col-md-5 col-lg-5'});
+            var car = advert.car;
+
+            CarService.loadCarImages(car.id, function (data) {
+                var carImages = data;
+                if(carImages != undefined && carImages.length > 0) {
+                    var image;
+                    var imgSrc;
+                    for(var i = 0; i < carImages.length; i++) {
+                        image = document.createElement('img');
+                        imgSrc = carImages[i].carImagePath;
+                        image.classList.add("img-responsive");
+                        image.src = "../.." + imgSrc;
+                        image.alt="here should be some image";
+                        if(i % 2 == 0) {
+                            imageDiv1.append(image);
+                        } else {
+                            imageDiv2.append(image);
+                        }
+                    }
+                }
+            });
 
 
-            $span.append($symbol);
 
-            $button.append($span);
-            $button.attr("user-id", id);
+            var contentDiv = $('<div>', {class: 'col-md-9 col-lg-9'});
+            contentDiv.append("Name: " + car.make + " " + car.model + "<br>");
+            contentDiv.append("Car condition: " + car.carCondition + "<br>");
+            contentDiv.append("Price: " + car.price + " BR <br>");
+            contentDiv.append("Car description: " + car.description + "<br>");
+            contentDiv.append("Advert description: " + advert.description + "<br>");
+            $content.append(contentDiv);
 
-            $content.append(description + " " + car.make + " " + car.model);
-            alert("image: " + image);
-            if(image != undefined) {
-                $content.append(image);
-            }
+            $content.append("<div class='col-md-9 col-lg-9'><h3> Car images </h3></div>")
+            $content.append(imageDiv1);
+            $content.append(imageDiv2);
+
             $body.append($content);
-            $body.append($button);
             $panel.append($body);
             return $panel;
         }
 
-        function render(adverts) {
-            adverts.forEach(function (advert) {
-                var panel = createPanel(advert.description, advert.id, advert.car);
-                $('#advertContainer').append(panel);
-            });
+        function render(advert) {
+            var panel = createPanel(advert);
+            $('#advertContainer').append(panel);
         }
 
         function removePanel(id) {

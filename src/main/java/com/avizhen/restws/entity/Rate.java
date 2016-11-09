@@ -12,7 +12,7 @@ import java.util.Date;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Rate {
-    @JsonView
+    @JsonView(Views.Public.class)
     public Integer Cur_ID;
     @JsonView(Views.Public.class)
     public Date Date;

@@ -6,6 +6,7 @@ import com.avizhen.factory.CarFactory;
 import com.avizhen.factory.OrderFactory;
 import com.avizhen.factory.UserFactory;
 import com.avizhen.repository.*;
+import com.avizhen.service.CarImageService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
@@ -24,6 +25,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Set;
 
 /**
  * Created by Александр on 25.10.2016.
@@ -193,13 +195,17 @@ public class TestRepository {
     @Autowired
     private CarImageRepository carImageRepository;
 
+    @Autowired
+    private CarImageService carImageService;
+
     @Test
-    @Ignore
+    //@Ignore
+    @Transactional
     public void addAdverts() throws IOException, SQLException {
-        CarImage carImage = new CarImage();
-        carImage.setCar(carRepository.findOne(1));
-        carImage.setCarImagePath("/resources/images/car.png");
-        carImageRepository.save(carImage);
+        Car car = carRepository.findOne(2);
+        Set<CarImage> carImagesByCar = carImageService.getCarImagesByCar(car);
+        LOG.info(carImagesByCar);
+
     }
 
     /*@Resource

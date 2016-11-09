@@ -22,4 +22,16 @@ public class AdvertService {
         List<Advert> result = advertRepository.getAll();
         return result;
     }
+
+    public Advert findAdvertById(int advertId) {
+        return advertRepository.findOne(advertId);
+    }
+
+    public Advert addAdvert(Advert advert) {
+        return advertRepository.save(advert);
+    }
+
+    public void removeAdvertById(int advertId) {
+        advertRepository.delete(advertId);
+    }
 }

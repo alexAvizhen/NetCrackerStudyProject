@@ -1,9 +1,6 @@
 /**
  * Created by Александр on 08.11.2016.
  */
-/**
- * Created by Александр on 07.11.2016.
- */
 $(function () {
 
     var rateCtrl = (function () {

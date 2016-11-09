@@ -18,7 +18,7 @@ import java.util.Properties;
  */
 @Configuration
 @EnableJpaRepositories(basePackages = "com.avizhen.repository")
-@ComponentScan(basePackages = "com.avizhen.repository")
+@ComponentScan(basePackages = {"com.avizhen.repository", "com.avizhen.service"})
 public class TestRepositoryConfig {
 
     private static final String PROPERTY_NAME_DATABASE_DRIVER = "com.mysql.jdbc.Driver";

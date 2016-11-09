@@ -60,4 +60,13 @@ public class CarImage {
     public void setCar(Car car) {
         this.car = car;
     }
+
+    @Override
+    public String toString() {
+        return "CarImage{" +
+                "id=" + id +
+                ", carImagePath='" + carImagePath + '\'' +
+                ", car=" + car +
+                '}';
+    }
 }

@@ -8,7 +8,6 @@ import com.avizhen.repository.CarRepository;
 import com.avizhen.repository.ItemRepository;
 import com.avizhen.repository.OrderRepository;
 import com.avizhen.repository.UserRepository;
-import com.avizhen.restws.entity.Rate;
 import com.avizhen.restws.service.RateService;
 import com.avizhen.service.AdvertService;
 import org.hibernate.Hibernate;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 
 /**
@@ -118,18 +116,14 @@ public class MainController {
 
     @RequestMapping(value = "/advert", method = RequestMethod.GET)
     public String getAdverts() {
-        return "advert";
+        return "adverts";
     }
 
-
-
-    @RequestMapping(value = "/rate", method = RequestMethod.GET)
-    public String printRate(@RequestParam("currencyAbbreviation") String currencyAbbreviation,
-                            ModelMap modelMap) {
-        Rate rate = rateService.getRate(currencyAbbreviation, LocalDate.now());
-        modelMap.addAttribute("rate", rate);
-        modelMap.addAttribute("message", rate.toString());
-        return "rate";
+    @RequestMapping(value = "/advert/{id}", method = RequestMethod.GET)
+    public ModelAndView  getAdvert(@PathVariable Integer id) {
+        ModelAndView modelAndView = new ModelAndView("advert");
+        modelAndView.addObject("advertId", id);
+        return modelAndView;
     }
 
 
