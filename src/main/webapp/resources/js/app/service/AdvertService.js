@@ -27,6 +27,21 @@ var AdvertService = (function () {
                     console.error("cannot load adverts");
                 }
             });
+        },
+        loadAdvertsByMakeByYearBetweenByPriceBetween: function (make, yearFrom, yearTo, priceFrom,
+                                                               priceTo, callback) {
+            $.ajax({
+                url: "/api/advert/search",
+                type: "GET",
+                data: { make: make, yearFrom: yearFrom, yearTo: yearTo,
+                    priceFrom: priceFrom, priceTo: priceTo},
+                success: function (data) {
+                    callback(data);
+                },
+                error: function () {
+                    console.error("cannot load adverts");
+                }
+            });
         }
     };
 

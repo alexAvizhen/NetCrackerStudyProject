@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -14,4 +15,12 @@ import java.util.List;
 public interface CarRepository extends PagingAndSortingRepository<Car, Integer> {
     @Query("from Car")
     List<Car> getAll();
+
+    List<Car> findByMake(String make);
+
+    List<Car> findByMakeAndPriceBetweenAndYearBetween(String make, int price1, int price2,
+                                                      int year1, int year2);
+
+    //Car findTopOrderByPriceDesc();
+
 }

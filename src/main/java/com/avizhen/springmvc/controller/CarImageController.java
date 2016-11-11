@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created by Александр on 09.11.2016.
@@ -32,7 +32,7 @@ public class CarImageController {
     @RequestMapping(value = "/car/{carId}/images", method = RequestMethod.GET)
     @Transactional
     @JsonView(Views.Public.class)
-    public Set<CarImage> findAllImages(@PathVariable int carId) {
+    public List<CarImage> findAllImages(@PathVariable int carId) {
         Car car = carService.findCarById(carId);
         return carImageService.getCarImagesByCar(car);
     }

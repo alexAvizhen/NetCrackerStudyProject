@@ -27,6 +27,18 @@ var CarService = (function () {
                     console.error("cannot load images");
                 }
             });
+        },
+        loadCarMakes : function (callback) {
+            $.ajax({
+                url: "/api/car/makes",
+                type: "get",
+                success: function (data) {
+                    callback(data);
+                },
+                error: function () {
+                    console.error("cannot load images");
+                }
+            });
         }
 
     };

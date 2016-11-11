@@ -3,10 +3,8 @@ package com.avizhen.entity;
 import com.avizhen.web.jsonview.Views;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,9 +33,9 @@ public class Car {
     @JsonView(Views.Public.class)
     private Integer price;
 
-    @Column(name = "date")
-    @Type(type = "date")
-    private Date date;
+    @Column(name = "year")
+    @JsonView(Views.Public.class)
+    private int year;
 
     @Column(name = "car_condition")
     @JsonView(Views.Public.class)
@@ -59,12 +57,12 @@ public class Car {
     public Car() {
     }
 
-    public Car(String model, String make, Integer price, Date date, String carCondition,
+    public Car(String model, String make, Integer price, int year, String carCondition,
                String description, Set<CarImage> images, Set<Advert> adverts, Set<Item> items) {
         this.model = model;
         this.make = make;
         this.price = price;
-        this.date = date;
+        this.year = year;
         this.carCondition = carCondition;
         this.description = description;
         this.images = images;
@@ -104,12 +102,12 @@ public class Car {
         this.price = price;
     }
 
-    public Date getDate() {
-        return date;
+    public int getYear() {
+        return year;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setYear(int year) {
+        this.year = year;
     }
 
     public String getCarCondition() {
@@ -159,7 +157,7 @@ public class Car {
                 ", model='" + model + '\'' +
                 ", make='" + make + '\'' +
                 ", price=" + price +
-                ", date=" + date +
+                ", year=" + year +
                 ", carCondition='" + carCondition + '\'' +
                 ", description='" + description + '\'' +
                 '}';

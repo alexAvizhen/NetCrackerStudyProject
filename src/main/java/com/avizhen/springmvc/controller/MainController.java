@@ -9,7 +9,6 @@ import com.avizhen.repository.ItemRepository;
 import com.avizhen.repository.OrderRepository;
 import com.avizhen.repository.UserRepository;
 import com.avizhen.restws.service.RateService;
-import com.avizhen.service.AdvertService;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,8 +42,6 @@ public class MainController {
     @Autowired
     private ItemRepository itemRepository;
 
-    @Autowired
-    private AdvertService advertService;
 
     @RequestMapping(value = "/")
     public String printHello(ModelMap model) {

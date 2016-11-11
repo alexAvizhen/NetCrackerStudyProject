@@ -1,29 +1,21 @@
 package com.avizhen.service;
 
 import com.avizhen.entity.Car;
-import com.avizhen.repository.CarRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 /**
- * Created by Александр on 09.11.2016.
+ * Created by Александр on 10.11.2016.
  */
-@Service
-@Transactional
-public class CarService {
+public interface CarService {
+    List<Car> findAllCars();
 
-    @Autowired
-    private CarRepository carRepository;
+    Car findCarById(int carId);
 
-    public List<Car> findAllCars() {
-        List<Car> result = carRepository.getAll();
-        return result;
-    }
+    Set<String> findAllMakes();
 
-    public Car findCarById(int carId) {
-        return carRepository.findOne(carId);
-    }
+    List<Car> findByMakeYearBetweenPriceBetween(String make, int yearFrom, int yearTo,
+                                                int priceFrom, int priceTo);
+
 }

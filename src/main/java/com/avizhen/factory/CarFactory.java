@@ -12,7 +12,7 @@ public class CarFactory {
         resultCar.setMake(make);
         resultCar.setPrice(999);
         resultCar.setCarCondition("used");
-        resultCar.setDate(new java.sql.Date(2000, 9, 9));
+        resultCar.setYear(2000);
         return resultCar;
     }
 

@@ -6,7 +6,8 @@ import com.avizhen.factory.CarFactory;
 import com.avizhen.factory.OrderFactory;
 import com.avizhen.factory.UserFactory;
 import com.avizhen.repository.*;
-import com.avizhen.service.CarImageService;
+import com.avizhen.service.CarService;
+import com.avizhen.service.impl.CarImageServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
@@ -25,7 +26,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created by Александр on 25.10.2016.
@@ -192,20 +193,23 @@ public class TestRepository {
         orderRepository.save(tempOrder);
     }
 
-    @Autowired
+    @Resource
     private CarImageRepository carImageRepository;
 
     @Autowired
-    private CarImageService carImageService;
+    private CarImageServiceImpl carImageService;
+
+    @Autowired
+    private CarService carService;
 
     @Test
     //@Ignore
     @Transactional
     public void addAdverts() throws IOException, SQLException {
-        Car car = carRepository.findOne(2);
-        Set<CarImage> carImagesByCar = carImageService.getCarImagesByCar(car);
-        LOG.info(carImagesByCar);
-
+        List<Car> cars = carService.findByMakeYearBetweenPriceBetween("Opel", -1, -1, -1, -1);
+        for (Car car : cars) {
+            System.out.println(car);
+        }
     }
 
     /*@Resource
