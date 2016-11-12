@@ -5,8 +5,18 @@ import com.avizhen.entity.Car;
 import com.avizhen.service.AdvertService;
 import com.avizhen.service.CarService;
 import com.avizhen.web.jsonview.Views;
+import com.avizhen.web.model.JsonPageResponse;
+import com.avizhen.web.model.OrderAdvertsCriteria;
+import com.avizhen.web.model.SearchAdvertsCriteria;
+import com.avizhen.web.model.SearchOrderAdvertsCriteria;
 import com.fasterxml.jackson.annotation.JsonView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,19 +30,14 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api")
 public class AdvertController {
+    private static final Logger LOG = LogManager.getLogger();
+
     @Autowired
     private AdvertService advertService;
 
     @Autowired
     private CarService carService;
 
-
-    @RequestMapping(value = "/advert", method = RequestMethod.GET)
-    @Transactional
-    @JsonView(Views.Public.class)
-    public List<Advert> findAllAdverts() {
-        return advertService.findAllAdverts();
-    }
 
     @RequestMapping(value = "/advert/{advertId}", method = RequestMethod.GET)
     @JsonView(Views.Public.class)
@@ -46,22 +51,31 @@ public class AdvertController {
         return advertService.addAdvert(advert);
     }
 
-    @RequestMapping(value = "/advert/search", method = RequestMethod.GET)
+    @RequestMapping(value = "/advert/page/search", method = RequestMethod.POST)
     @Transactional
     @JsonView(Views.Public.class)
-    public List<Advert> findFilterAdverts(@RequestParam("make") String make, @RequestParam("yearFrom") int yearFrom,
-            @RequestParam("yearTo") int yearTo, @RequestParam("priceFrom") int priceFrom,
-                                          @RequestParam("priceTo") int priceTo) {
-        List<Car> acceptedCars = carService.findByMakeYearBetweenPriceBetween(make, yearFrom, yearTo,
-                priceFrom, priceTo);
-        List<Advert> resultAdverts = new ArrayList<>();
-        for (Car car : acceptedCars) {
-            resultAdverts.addAll(car.getAdverts());
+    public Page<Advert> findFilteringOrderPageWithAdverts(@RequestBody SearchOrderAdvertsCriteria criteria) {
+        OrderAdvertsCriteria orderCriteria = criteria.getOrderCriteria();
+        SearchAdvertsCriteria searchCriteria = criteria.getSearchCriteria();
+        Sort.Direction direction = Sort.Direction.ASC;
+        if (orderCriteria.getSortDirection().equals("desc")) {
+            direction = Sort.Direction.DESC;
         }
-        return resultAdverts;
+        Pageable pageable = new PageRequest(orderCriteria.getPageNumber(), orderCriteria.getPageSize(),
+                direction, orderCriteria.getSortField());
+        Page<Car> carPage = carService.findByMakeYearBetweenPriceBetween(searchCriteria.getMake(),
+                searchCriteria.getYearFrom(), searchCriteria.getYearTo(), searchCriteria.getPriceFrom(),
+                searchCriteria.getPriceTo(), pageable);
+        List<Advert> advertList = new ArrayList<>();
+        for (Car car : carPage.getContent()) {
+            advertList.add(car.getAdvert());
+        }
+        Pageable pageable2 = new PageRequest(orderCriteria.getPageNumber(), orderCriteria.getPageSize(),
+                direction, "car." + orderCriteria.getSortField());
+        return new JsonPageResponse<>(advertList, pageable2, advertService.getCount());
+
 
     }
-
 
     @RequestMapping(value = "/advert/{advertId}", method = RequestMethod.DELETE)
     public void removeAdvert(@PathVariable int advertId) {

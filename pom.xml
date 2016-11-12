@@ -15,7 +15,7 @@
         <hb.manager>4.3.8.Final</hb.manager>
         <mysql.connector.version>5.1.31</mysql.connector.version>
         <joda-time.version>2.3</joda-time.version>
-        <spring.data>1.3.4.RELEASE</spring.data>
+        <spring.data>1.7.3.RELEASE</spring.data>
         <spring.mvc>4.3.3.RELEASE</spring.mvc>
         <spring.test>4.3.3.RELEASE</spring.test>
         <javax.servlet>3.0.1</javax.servlet>
@@ -70,6 +70,12 @@
             <artifactId>spring-test</artifactId>
             <version>${spring.test}</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.hateoas</groupId>
+            <artifactId>spring-hateoas</artifactId>
+            <version>0.16.0.RELEASE</version>
         </dependency>
 
 

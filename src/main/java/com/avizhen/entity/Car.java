@@ -48,8 +48,8 @@ public class Car {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "car", cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH})
     Set<CarImage> images = new HashSet<CarImage>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "car", cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH})
-    private Set<Advert> adverts = new HashSet<Advert>();
+    @OneToOne(mappedBy = "car", cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH})
+    private Advert advert;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "car", cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE})
     private Set<Item> items = new HashSet<Item>();
@@ -58,7 +58,7 @@ public class Car {
     }
 
     public Car(String model, String make, Integer price, int year, String carCondition,
-               String description, Set<CarImage> images, Set<Advert> adverts, Set<Item> items) {
+               String description, Set<CarImage> images, Advert advert, Set<Item> items) {
         this.model = model;
         this.make = make;
         this.price = price;
@@ -66,7 +66,7 @@ public class Car {
         this.carCondition = carCondition;
         this.description = description;
         this.images = images;
-        this.adverts = adverts;
+        this.advert = advert;
         this.items = items;
     }
 
@@ -134,12 +134,12 @@ public class Car {
         this.images = images;
     }
 
-    public Set<Advert> getAdverts() {
-        return adverts;
+    public Advert getAdvert() {
+        return advert;
     }
 
-    public void setAdverts(Set<Advert> adverts) {
-        this.adverts = adverts;
+    public void setAdvert(Advert advert) {
+        this.advert = advert;
     }
 
     public Set<Item> getItems() {

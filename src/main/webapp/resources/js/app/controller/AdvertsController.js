@@ -6,6 +6,13 @@ $(function () {
     var advertCtrl = (function () {
         var adverts;
         var makes;
+        var page;
+        var pageSize;
+        var sortField;
+        var sortDirection;
+        var pageNumber;
+        var orderCriteria;
+        var searchCriteria;
         var methods = {
             init: function () {
                 this.showAdverts();
@@ -14,10 +21,15 @@ $(function () {
                 this.bindEvents();
             },
             showAdverts: function () {
-                AdvertService.loadAdverts(function (data) {
-                    adverts = data;
-                    render(adverts);
-                });
+                searchCriteria = {make: "", yearFrom: -1, yearTo: -1, priceFrom: -1, priceTo: -1};
+                pageNumber = 0;
+                pageSize = +$("#pageSizeSelect option:selected").val();
+                sortField = $("#sortAdvertSelect option:selected").attr("field");
+                sortDirection = $("#sortAdvertSelect option:selected").attr("direction");
+                orderCriteria = { pageNumber: pageNumber, pageSize: pageSize, sortField: sortField,
+                    sortDirection: sortDirection};
+                AdvertService.loadFilteringPageWithOrderedAdverts(orderCriteria, searchCriteria, renderPage);
+
             },
             initCarMakesSelect: function () {
                 CarService.loadCarMakes(function (data) {
@@ -48,34 +60,50 @@ $(function () {
                     e.preventDefault();
                     var make = $("#carMakesSelect option:selected").text();
                     make = make == "Любая" ? "" : make;
+                    searchCriteria.make = make;
                     var yearFrom = $("#yearFrom").val();
                     yearFrom = yearFrom == "" ? -1 : +yearFrom;
+                    searchCriteria.yearFrom = yearFrom;
                     var yearTo = $("#yearTo").val();
                     yearTo = yearTo == "" ? -1 : +yearTo;
+                    searchCriteria.yearTo = yearTo;
                     var priceFrom = $("#priceFrom").val();
                     priceFrom = priceFrom == "" ? -1 : +priceFrom;
+                    searchCriteria.priceFrom = priceFrom;
                     var priceTo = $("#priceTo").val();
                     priceTo = priceTo == "" ? -1 : +priceTo;
-                    AdvertService.loadAdvertsByMakeByYearBetweenByPriceBetween(make, yearFrom, yearTo, priceFrom, priceTo,
-                        function (data) {
-                            /*adverts.forEach(function (advert) {
-                                removePanel("panel" + advert.id);
-                            });*/
-                            $('#advertContainer').empty();
-                            adverts = data;
-                            render(adverts);
-                        });
+                    searchCriteria.priceTo = priceTo;
+                    AdvertService.loadFilteringPageWithOrderedAdverts(orderCriteria, searchCriteria, renderPage);
+                });
+
+                $("#pageSizeSelect").change(function() {
+                    orderCriteria.pageSize = +$("#pageSizeSelect option:selected").val();
+                    orderCriteria.pageNumber = 0;
+                    AdvertService.loadFilteringPageWithOrderedAdverts(orderCriteria, searchCriteria, renderPage);
+                });
+                $("#sortAdvertSelect").change(function() {
+                    orderCriteria.sortField = $("#sortAdvertSelect option:selected").attr("field");
+                    orderCriteria.sortDirection = $("#sortAdvertSelect option:selected").attr("direction");
+                    orderCriteria.pageNumber = 0;
+                    AdvertService.loadFilteringPageWithOrderedAdverts(orderCriteria, searchCriteria, renderPage);
                 });
             }
-
         };
 
-        function createPanel(description, id, car) {
-            var $panel = $('<div>', {class: 'panel panel-default', id: 'panel' + id});
+        function renderPage(data) {
+            $('#advertContainer').empty();
+            page = data;
+            adverts = page.content;
+            render(adverts);
+        };
+
+        function createPanel(advert) {
+            var $panel = $('<div>', {class: 'panel panel-default', id: 'panel' + advert.id});
             var $body = $('<div>', {class: 'panel-body'});
             var $content = $('<div>', {class: 'row'});
-            var $link = $('<a>', {href: "/advert/" + id});
+            var $link = $('<a>', {href: "/advert/" + advert.id});
             var imageDiv = $('<div>', {class: 'col-md-4 col-lg-3'});
+            var car = advert.car;
             CarService.loadCarImage(car.id, function (data) {
                 var presentationCarImage = data;
                 if(presentationCarImage != undefined) {
@@ -95,7 +123,7 @@ $(function () {
 
             var contentDiv = $('<div>', {class: 'col-md-6 col-lg-7'});
             contentDiv.append(car.make + " " + car.model + "<br>");
-            contentDiv.append(description + "<br>");
+            contentDiv.append(advert.description + "<br>");
             contentDiv.append("Year: " + car.year + "<br>");
             contentDiv.append(car.price + " BR <br>");
             $content.append(contentDiv);
@@ -110,10 +138,11 @@ $(function () {
         }
 
         function render(adverts) {
-            adverts.forEach(function (advert) {
-                var panel = createPanel(advert.description, advert.id, advert.car);
+            for (var i = 0; i < adverts.length; i++) {
+                var advert = adverts[i];
+                var panel = createPanel(advert);
                 $('#advertContainer').append(panel);
-            });
+            }
         }
 
         function renderCarMakesSelect(makes) {

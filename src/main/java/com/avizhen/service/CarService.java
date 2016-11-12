@@ -1,6 +1,8 @@
 package com.avizhen.service;
 
 import com.avizhen.entity.Car;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Set;
@@ -17,5 +19,9 @@ public interface CarService {
 
     List<Car> findByMakeYearBetweenPriceBetween(String make, int yearFrom, int yearTo,
                                                 int priceFrom, int priceTo);
+    Page<Car> findByMakeYearBetweenPriceBetween(String make, int yearFrom, int yearTo,
+                                                int priceFrom, int priceTo, Pageable pageable);
+
+
 
 }

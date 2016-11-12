@@ -19,7 +19,7 @@ public class Advert {
     @JsonView(Views.Public.class)
     private Integer id;
 
-    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
+    @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "car_id")
     @JsonView(Views.Public.class)
     private Car car;

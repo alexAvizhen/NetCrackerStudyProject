@@ -4,6 +4,8 @@ import com.avizhen.entity.Advert;
 import com.avizhen.repository.AdvertRepository;
 import com.avizhen.service.AdvertService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,5 +40,15 @@ public class AdvertServiceImpl implements AdvertService {
     @Override
     public void removeAdvertById(int advertId) {
         advertRepository.delete(advertId);
+    }
+
+    @Override
+    public Page<Advert> findPaginated(Pageable pageable) {
+        return advertRepository.findAll(pageable);
+    }
+
+    @Override
+    public long getCount() {
+        return advertRepository.count();
     }
 }

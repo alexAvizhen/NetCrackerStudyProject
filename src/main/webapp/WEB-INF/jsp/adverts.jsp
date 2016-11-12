@@ -97,6 +97,23 @@
 
         </div>
         <div class="col-md-4 col-lg-3">
+            <div>
+                <h3>Количество объявлений на странице</h3>
+                <select id="pageSizeSelect">
+                    <option selected>5</option>
+                    <option>10</option>
+                    <option>15</option>
+                    <option>20</option>
+                </select>
+                <hr>
+                <select id="sortAdvertSelect">
+                    <option field="price" direction="asc">Сначала дешёвые</option>
+                    <option field="price" direction="desc">Сначала дорогие</option>
+                    <option field="year" direction="desc">Сначала новые</option>
+                    <option field="year" direction="asc">Сначала старые</option>
+                </select>
+                <hr>
+            </div>
 
             <div id="chooseCarContainer">
                 <form id="findCarsForm">
@@ -121,7 +138,7 @@
                             <input type="text" id="yearFrom" placeholder="год от" class="positive-integer">
                         </div>
                         <div class="col-lg-6 col-md-6">
-                            <label for="yearTo">до (БР)</label>
+                            <label for="yearTo">до</label>
                             <input type="text" id="yearTo" placeholder="год до" class="positive-integer">
                         </div>
                     </div>

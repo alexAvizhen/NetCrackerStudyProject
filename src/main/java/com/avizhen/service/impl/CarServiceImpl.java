@@ -3,9 +3,11 @@ package com.avizhen.service.impl;
 import com.avizhen.entity.Car;
 import com.avizhen.repository.CarRepository;
 import com.avizhen.service.CarService;
+import com.avizhen.web.model.JsonPageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +23,6 @@ import java.util.TreeSet;
 @Service
 @Transactional
 public class CarServiceImpl implements CarService {
-    public static final long YEAR_IN_SECOND = 31536000;
 
     @Autowired
     private CarRepository carRepository;
@@ -71,6 +72,28 @@ public class CarServiceImpl implements CarService {
         }
         return carRepository.findByMakeAndPriceBetweenAndYearBetween(make, priceFrom, priceTo,
                 yearFrom, yearTo);
+    }
+
+    @Override
+    public Page<Car> findByMakeYearBetweenPriceBetween(String make, int yearFrom, int yearTo, int priceFrom, int priceTo,
+                                                       Pageable pageable) {
+        if (yearFrom == -1) {
+            yearFrom= findTheLimitCarByDate(Sort.Direction.ASC).getYear();
+        }
+        if (yearTo == -1) {
+            yearTo = findTheLimitCarByDate(Sort.Direction.DESC).getYear();
+        }
+        if (priceFrom == -1) {
+            priceFrom = findTheLimitCarByPrice(Sort.Direction.ASC).getPrice();
+        }
+        if (priceTo == -1) {
+            priceTo = findTheLimitCarByPrice(Sort.Direction.DESC).getPrice();
+        }
+        if (make.isEmpty()) {
+            Page<Car> page = carRepository.findByPriceBetweenAndYearBetween(priceFrom, priceTo, yearFrom, yearTo, pageable);
+            return new JsonPageResponse<Car>(page, pageable);
+        }
+        return carRepository.findByMakeAndPriceBetweenAndYearBetween(make, priceFrom, priceTo, yearFrom, yearTo, pageable);
     }
 
     public Car findTheLimitCarByPrice(Sort.Direction sortDirection) {

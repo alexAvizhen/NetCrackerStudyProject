@@ -4,18 +4,6 @@
 var AdvertService = (function () {
 
     var methods = {
-        loadAdverts: function (callback) {
-            $.ajax({
-                url: "/api/advert",
-                method: "GET",
-                success: function (data) {
-                    callback(data);
-                },
-                error: function () {
-                    console.error("cannot load adverts");
-                }
-            });
-        },
         loadAdvert: function (advertId, callback) {
             $.ajax({
                 url: "/api/advert/" + advertId,
@@ -28,21 +16,24 @@ var AdvertService = (function () {
                 }
             });
         },
-        loadAdvertsByMakeByYearBetweenByPriceBetween: function (make, yearFrom, yearTo, priceFrom,
-                                                               priceTo, callback) {
+        loadFilteringPageWithOrderedAdverts: function (orderCriteria, searchCriteria, callback) {
+            var criteria = {orderCriteria: orderCriteria, searchCriteria: searchCriteria};
             $.ajax({
-                url: "/api/advert/search",
-                type: "GET",
-                data: { make: make, yearFrom: yearFrom, yearTo: yearTo,
-                    priceFrom: priceFrom, priceTo: priceTo},
+                url: "/api/advert/page/search",
+                type: "POST",
+                data: JSON.stringify(criteria),
+                dataType : 'json',
+                contentType : "application/json",
                 success: function (data) {
                     callback(data);
                 },
                 error: function () {
-                    console.error("cannot load adverts");
+                    console.error("cannot load page with adverts");
                 }
             });
+
         }
+
     };
 
     return methods;

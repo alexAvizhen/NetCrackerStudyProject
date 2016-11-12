@@ -18,7 +18,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api")
-public class RateRestWebServiceController {
+public class RateController {
     @Autowired
     private RateService rateService;
 

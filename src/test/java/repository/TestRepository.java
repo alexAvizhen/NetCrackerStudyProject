@@ -6,6 +6,7 @@ import com.avizhen.factory.CarFactory;
 import com.avizhen.factory.OrderFactory;
 import com.avizhen.factory.UserFactory;
 import com.avizhen.repository.*;
+import com.avizhen.service.AdvertService;
 import com.avizhen.service.CarService;
 import com.avizhen.service.impl.CarImageServiceImpl;
 import org.apache.logging.log4j.LogManager;
@@ -16,6 +17,9 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -26,7 +30,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 
 /**
  * Created by Александр on 25.10.2016.
@@ -202,14 +205,19 @@ public class TestRepository {
     @Autowired
     private CarService carService;
 
+    @Autowired
+    private AdvertService advertService;
+
     @Test
     //@Ignore
-    @Transactional
+    //@Transactional
     public void addAdverts() throws IOException, SQLException {
-        List<Car> cars = carService.findByMakeYearBetweenPriceBetween("Opel", -1, -1, -1, -1);
-        for (Car car : cars) {
+        Page<Car> page = carService.findByMakeYearBetweenPriceBetween("", 0, 3000, 0, 3000,
+                new PageRequest(0, 3, Sort.Direction.ASC, "year"));
+        for (Car car : page) {
             System.out.println(car);
         }
+
     }
 
     /*@Resource
