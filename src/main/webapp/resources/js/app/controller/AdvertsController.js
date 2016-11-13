@@ -7,10 +7,6 @@ $(function () {
         var adverts;
         var makes;
         var page;
-        var pageSize;
-        var sortField;
-        var sortDirection;
-        var pageNumber;
         var orderCriteria;
         var searchCriteria;
         var methods = {
@@ -21,13 +17,10 @@ $(function () {
                 this.bindEvents();
             },
             showAdverts: function () {
-                searchCriteria = {make: "", yearFrom: -1, yearTo: -1, priceFrom: -1, priceTo: -1};
-                pageNumber = 0;
-                pageSize = +$("#pageSizeSelect option:selected").val();
-                sortField = $("#sortAdvertSelect option:selected").attr("field");
-                sortDirection = $("#sortAdvertSelect option:selected").attr("direction");
-                orderCriteria = { pageNumber: pageNumber, pageSize: pageSize, sortField: sortField,
-                    sortDirection: sortDirection};
+                initSearchCriteria();
+                alert(JSON.stringify(searchCriteria));
+                initOrderCriteria();
+                alert(JSON.stringify(orderCriteria));
                 AdvertService.loadFilteringPageWithOrderedAdverts(orderCriteria, searchCriteria, renderPage);
 
             },
@@ -58,24 +51,10 @@ $(function () {
                 });
                 $('#findCarsForm').submit(function (e) {
                     e.preventDefault();
-                    var make = $("#carMakesSelect option:selected").text();
-                    make = make == "Любая" ? "" : make;
-                    searchCriteria.make = make;
-                    var yearFrom = $("#yearFrom").val();
-                    yearFrom = yearFrom == "" ? -1 : +yearFrom;
-                    searchCriteria.yearFrom = yearFrom;
-                    var yearTo = $("#yearTo").val();
-                    yearTo = yearTo == "" ? -1 : +yearTo;
-                    searchCriteria.yearTo = yearTo;
-                    var priceFrom = $("#priceFrom").val();
-                    priceFrom = priceFrom == "" ? -1 : +priceFrom;
-                    searchCriteria.priceFrom = priceFrom;
-                    var priceTo = $("#priceTo").val();
-                    priceTo = priceTo == "" ? -1 : +priceTo;
-                    searchCriteria.priceTo = priceTo;
+                    initSearchCriteria(searchCriteria);
+                    orderCriteria.pageNumber = 0;
                     AdvertService.loadFilteringPageWithOrderedAdverts(orderCriteria, searchCriteria, renderPage);
                 });
-
                 $("#pageSizeSelect").change(function() {
                     orderCriteria.pageSize = +$("#pageSizeSelect option:selected").val();
                     orderCriteria.pageNumber = 0;
@@ -87,21 +66,34 @@ $(function () {
                     orderCriteria.pageNumber = 0;
                     AdvertService.loadFilteringPageWithOrderedAdverts(orderCriteria, searchCriteria, renderPage);
                 });
+                $("#pageNumberSelect").change(function() {
+                    orderCriteria.pageNumber = +$("#pageNumberSelect option:selected").val() - 1;
+                    AdvertService.loadFilteringPageWithOrderedAdverts(orderCriteria, searchCriteria, renderPage);
+                });
+                $('#prevPageBtn').click(function() {
+                    orderCriteria.pageNumber--;
+                    AdvertService.loadFilteringPageWithOrderedAdverts(orderCriteria, searchCriteria, renderPage);
+                });
+                $('#nextPageBtn').click(function() {
+                    orderCriteria.pageNumber++;
+                    AdvertService.loadFilteringPageWithOrderedAdverts(orderCriteria, searchCriteria, renderPage);
+                });
+
             }
         };
 
         function renderPage(data) {
-            $('#advertContainer').empty();
             page = data;
             adverts = page.content;
-            render(adverts);
+            renderAdverts(page);
+            renderPaginationControls(page);
         };
 
-        function createPanel(advert) {
+        function createPanel(advert, advertIndex) {
             var $panel = $('<div>', {class: 'panel panel-default', id: 'panel' + advert.id});
             var $body = $('<div>', {class: 'panel-body'});
             var $content = $('<div>', {class: 'row'});
-            var $link = $('<a>', {href: "/advert/" + advert.id});
+            var $link = $('<a>', {href: "/advert/" + advert.id, target: "_blank"});
             var imageDiv = $('<div>', {class: 'col-md-4 col-lg-3'});
             var car = advert.car;
             CarService.loadCarImage(car.id, function (data) {
@@ -119,9 +111,13 @@ $(function () {
 
             $link.append("Подробнее");
 
+            var indexDiv = $('<div>', {class: 'col-md-1 col-lg-1'});
+            indexDiv.append("<h2>" + advertIndex + "</h2>");
+            $content.append(indexDiv);
+
             $content.append(imageDiv);
 
-            var contentDiv = $('<div>', {class: 'col-md-6 col-lg-7'});
+            var contentDiv = $('<div>', {class: 'col-md-5 col-lg-6'});
             contentDiv.append(car.make + " " + car.model + "<br>");
             contentDiv.append(advert.description + "<br>");
             contentDiv.append("Year: " + car.year + "<br>");
@@ -137,15 +133,18 @@ $(function () {
             return $panel;
         }
 
-        function render(adverts) {
+        function renderAdverts(page) {
+            var adverts = page.content;
+            $('#advertContainer').empty();
             for (var i = 0; i < adverts.length; i++) {
                 var advert = adverts[i];
-                var panel = createPanel(advert);
+                var panel = createPanel(advert, page.number * page.size + i + 1);
                 $('#advertContainer').append(panel);
             }
         }
 
         function renderCarMakesSelect(makes) {
+            $('#carMakesSelect').empty();
             var $option = $('<option>', {value: "defaultValue"});
             $option.append("Любая");
             $('#carMakesSelect').append($option);
@@ -154,6 +153,83 @@ $(function () {
                 $option.append(make);
                 $('#carMakesSelect').append($option);
             });
+        }
+
+        function initSearchCriteria() {
+            if(searchCriteria == undefined) {
+                searchCriteria = {};
+            }
+            var make = $("#carMakesSelect option:selected").text();
+            make = make == "Любая" ? "" : make;
+            searchCriteria.make = make;
+            var yearFrom = $("#yearFrom").val();
+            yearFrom = yearFrom == "" ? -1 : +yearFrom;
+            searchCriteria.yearFrom = yearFrom;
+            var yearTo = $("#yearTo").val();
+            yearTo = yearTo == "" ? -1 : +yearTo;
+            searchCriteria.yearTo = yearTo;
+            var priceFrom = $("#priceFrom").val();
+            priceFrom = priceFrom == "" ? -1 : +priceFrom;
+            searchCriteria.priceFrom = priceFrom;
+            var priceTo = $("#priceTo").val();
+            priceTo = priceTo == "" ? -1 : +priceTo;
+            searchCriteria.priceTo = priceTo;
+        }
+
+        function initOrderCriteria() {
+            if(orderCriteria == undefined) {
+                orderCriteria = {};
+            }
+            orderCriteria.pageNumber = 0;
+            orderCriteria.pageSize = +$("#pageSizeSelect option:selected").val();
+            orderCriteria.sortField = $("#sortAdvertSelect option:selected").attr("field");
+            orderCriteria.sortDirection = $("#sortAdvertSelect option:selected").attr("direction");
+        }
+
+        function renderPaginationControls(page) {
+            var prevPageBtn = $("#prevPageBtn");
+            var nextPageBtn = $("#nextPageBtn");
+            if (page.hasPrevious) {
+                prevPageBtn.attr("disabled", false);
+            } else{
+                prevPageBtn.attr("disabled", true);
+            }
+
+            if(page.hasNext) {
+                nextPageBtn.attr("disabled", false);
+            } else {
+                nextPageBtn.attr("disabled", true);
+            }
+            if(page.totalPages > 0) {
+                var select = $("#pageNumberSelect");
+                select.empty();
+                var option;
+                for (var i = 1; i <= +page.totalPages; i++) {
+                    if ((i - 1) == +page.number) {
+                        option = $('<option selected>');
+                    } else{
+                        option = $('<option>');
+                    }
+                    option.text(i);
+                    select.append(option);
+                }
+            }
+
+        }
+
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for(var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
         }
 
         function removePanel(id) {

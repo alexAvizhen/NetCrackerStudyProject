@@ -72,7 +72,7 @@ public class AdvertController {
         }
         Pageable pageable2 = new PageRequest(orderCriteria.getPageNumber(), orderCriteria.getPageSize(),
                 direction, "car." + orderCriteria.getSortField());
-        return new JsonPageResponse<>(advertList, pageable2, advertService.getCount());
+        return new JsonPageResponse<>(advertList, pageable2, carPage.getTotalElements());
 
 
     }

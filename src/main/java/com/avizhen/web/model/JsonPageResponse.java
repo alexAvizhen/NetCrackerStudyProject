@@ -53,4 +53,21 @@ public class JsonPageResponse<T> extends PageImpl<T> {
     public List<T> getContent() {
         return super.getContent();
     }
+
+    @JsonView(Views.Public.class)
+    public boolean hasPrevious() {
+        return super.hasPrevious();
+    }
+
+    @JsonView(Views.Public.class)
+    public int getNumber() {
+        return super.getNumber();
+    }
+
+    @JsonView(Views.Public.class)
+    public int getSize() {
+        return super.getSize();
+    }
 }
+
+

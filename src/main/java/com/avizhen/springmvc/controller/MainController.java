@@ -1,9 +1,6 @@
 package com.avizhen.springmvc.controller;
 
-import com.avizhen.repository.CarRepository;
-import com.avizhen.repository.ItemRepository;
-import com.avizhen.repository.OrderRepository;
-import com.avizhen.repository.UserRepository;
+import com.avizhen.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,16 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class MainController {
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private OrderRepository orderRepository;
-
-    @Autowired
-    private CarRepository carRepository;
-
-    @Autowired
-    private ItemRepository itemRepository;
+    private CarService carService;
 
 
     @RequestMapping(value = "/")

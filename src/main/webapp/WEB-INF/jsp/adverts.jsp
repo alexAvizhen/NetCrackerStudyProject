@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -93,19 +94,40 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-lg-9" id="advertContainer">
+        <div  class="col-md-8 col-lg-9">
+            <div id="advertContainer">
 
+            </div>
+            <div id="advertPaginationControls" class="row">
+                <div class="col-md-3 col-lg-3 col-md-offset-3 col-lg-offset-3">
+                    <button class="btn btn-primary" id="prevPageBtn" disabled>
+                        Предыдущая
+                    </button>
+                </div>
+                <div class="col-md-2 col-lg-2">
+                    <button class="btn btn-primary" id="nextPageBtn" disabled>
+                        Следующая
+                    </button>
+                </div>
+                <div class="col-md-2 col-lg-2">
+                    <select id="pageNumberSelect">
+
+                    </select>
+                </div>
+            </div>
         </div>
         <div class="col-md-4 col-lg-3">
             <div>
-                <h3>Количество объявлений на странице</h3>
+                <h3>Объявлений на странице</h3>
                 <select id="pageSizeSelect">
+                    <option>2</option>
                     <option selected>5</option>
                     <option>10</option>
                     <option>15</option>
                     <option>20</option>
                 </select>
                 <hr>
+                <h3>Порядок</h3>
                 <select id="sortAdvertSelect">
                     <option field="price" direction="asc">Сначала дешёвые</option>
                     <option field="price" direction="desc">Сначала дорогие</option>
@@ -120,26 +142,30 @@
                     <div class="form-group">
                         <label for="carMakesSelect">Марка машины</label>
                         <select class="form-control" id="carMakesSelect">
+                            <%--<option>Любая</option>
+                            <c:forEach items="${carMakes}" var="make">
+                                <option>${make}</option>
+                            </c:forEach>--%>
                         </select>
                     </div>
                     <div class="form-group row">
                         <div class="col-lg-6 col-md-6">
                             <label for="priceFrom">Цена от</label>
-                            <input type="text" id="priceFrom" placeholder="цена от" class="positive-integer">
+                            <input type="text" id="priceFrom" placeholder="цена от" class="positive-integer form-control">
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <label for="priceTo">до (БР)</label>
-                            <input type="text" id="priceTo" placeholder="цена до" class="positive-integer">
+                            <input type="text" id="priceTo" placeholder="цена до" class="positive-integer form-control">
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-lg-6 col-md-6">
                             <label for="yearFrom">Год от</label>
-                            <input type="text" id="yearFrom" placeholder="год от" class="positive-integer">
+                            <input type="text" id="yearFrom" placeholder="год от" class="positive-integer form-control">
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <label for="yearTo">до</label>
-                            <input type="text" id="yearTo" placeholder="год до" class="positive-integer">
+                            <input type="text" id="yearTo" placeholder="год до" class="positive-integer form-control">
                         </div>
                     </div>
                     <div class="row">
