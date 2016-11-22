@@ -8,6 +8,7 @@ $(function () {
         var methods = {
             init: function () {
                 this.showAdvert();
+                this.bindEvents();
             },
             showAdvert: function () {
                 AdvertService.loadAdvert($("#advertContainer").attr("advert-id"), function (data) {
@@ -15,6 +16,18 @@ $(function () {
                     render(advert);
                 });
             },
+            bindEvents: function() {
+                $("#addAdvertToCartForm").submit(function (e) {
+                    e.preventDefault();
+                    var advertId = $("#advertId").val();
+                    CartService.addAdvertToCart(advertId, function(data) {
+                        $("#cartSize").empty();
+                        $("#cartSize").append(data);
+                        $("#addAdvertToCartMsg").empty();
+                        $("#addAdvertToCartMsg").append("<p>Advert was added</p>");
+                    });
+                });
+            }
 
         };
 

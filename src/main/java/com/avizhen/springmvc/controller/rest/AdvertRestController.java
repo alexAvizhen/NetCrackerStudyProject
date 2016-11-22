@@ -1,4 +1,4 @@
-package com.avizhen.springmvc.controller;
+package com.avizhen.springmvc.controller.rest;
 
 import com.avizhen.entity.Advert;
 import com.avizhen.entity.Car;
@@ -28,7 +28,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api")
-public class AdvertController {
+public class AdvertRestController {
 
     @Autowired
     private AdvertService advertService;

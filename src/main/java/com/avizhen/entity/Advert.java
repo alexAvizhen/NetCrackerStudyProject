@@ -71,4 +71,22 @@ public class Advert {
                 ", description='" + description + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Advert advert = (Advert) o;
+
+        return id.equals(advert.id);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + car.hashCode();
+        result = 31 * result + description.hashCode();
+        return result;
+    }
 }

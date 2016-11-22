@@ -1,4 +1,4 @@
-package com.avizhen.springmvc.controller;
+package com.avizhen.springmvc.controller.rest;
 
 import com.avizhen.restws.entity.Rate;
 import com.avizhen.restws.service.RateService;
@@ -18,7 +18,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api")
-public class RateController {
+public class RateRestController {
     @Autowired
     private RateService rateService;
 

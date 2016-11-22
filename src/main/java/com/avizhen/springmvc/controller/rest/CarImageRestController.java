@@ -1,4 +1,4 @@
-package com.avizhen.springmvc.controller;
+package com.avizhen.springmvc.controller.rest;
 
 import com.avizhen.entity.Car;
 import com.avizhen.entity.CarImage;
@@ -21,7 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api")
-public class CarImageController {
+public class CarImageRestController {
 
     @Autowired
     private CarImageService carImageService;

@@ -80,7 +80,7 @@
                         <li><a href="/advert">Объявления</a></li>
                         <li><a href="#">Акции и скидки</a></li>
                         <li><a href="#">Контакты</a></li>
-                        <li><a href="#">Корзина<span class="badge">3</span></a></li>
+                        <li><a href="/cart">Корзина<span  class="badge">${cart.size()}</span></a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <sec:authorize access="!isAuthenticated()">

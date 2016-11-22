@@ -31,6 +31,7 @@
 
     <script type="text/javascript" src="<c:url value="/resources/js/app/service/CarService.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/app/service/AdvertService.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/app/service/CartService.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/app/controller/AdvertController.js" />"></script>
 
 
@@ -45,7 +46,7 @@
 <body>
 <div class="container">
     <div class="row">
-        <h1>Site firstName</h1>
+        <h1>Site name</h1>
         <div class="navbar navbar-inverse">
             <div class="container">
                 <div class="navbar-header">
@@ -63,7 +64,7 @@
                         <li><a href="/advert">Объявления</a></li>
                         <li><a href="#">Акции и скидки</a> </li>
                         <li><a href="#">Контакты</a> </li>
-                        <li><a href="#">Корзина<span class="badge">3</span></a></li>
+                        <li><a href="/cart">Корзина<span id="cartSize" class="badge">${cart.size()}</span></a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <sec:authorize access="!isAuthenticated()">
@@ -117,7 +118,11 @@
                 <button type="submit" class="btn btn-danger">Delete the advert</button>
             </form>
         </sec:authorize>
-
+        <form id="addAdvertToCartForm">
+            <input type="hidden" name="advertId" id="advertId" value="${advertId}">
+            <button type="submit" class="btn btn-primary">Add to basket</button>
+            <div id="addAdvertToCartMsg"></div>
+        </form>
     </div>
 </div>
 

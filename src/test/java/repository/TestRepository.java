@@ -206,7 +206,6 @@ public class TestRepository {
     //@Ignore
     //@Transactional
     public void addAdverts() throws IOException, SQLException {
-        //carRepository.delete(7);
     }
 
     /*@Resource

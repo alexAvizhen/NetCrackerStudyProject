@@ -10,8 +10,8 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 /**
  * Created by Александр on 19.11.2016.
  */
-@ControllerAdvice
 @Controller
+@ControllerAdvice
 public class ExceptionController {
     @ExceptionHandler(NoHandlerFoundException.class)
     public String handlerResourceNotFoundException() {

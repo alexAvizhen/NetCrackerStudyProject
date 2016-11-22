@@ -15,7 +15,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta firstName="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Main</title>
+    <title>Cart</title>
 
     <c:url var="home" value="/" scope="request" />
 
@@ -29,11 +29,10 @@
                 var="jqueryJs" />
     <script src="${jqueryJs}"></script>
 
-
-    <script type="text/javascript" src="<c:url value="/resources/js/app/controller/RateController.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/app/service/RateService.js" />"></script>
-
-
+    <script type="text/javascript" src="<c:url value="/resources/js/app/service/CartService.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/app/controller/RateController.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/app/controller/CartController.js" />"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -63,7 +62,7 @@
                         <li><a href="/advert">Объявления</a></li>
                         <li><a href="#">Акции и скидки</a> </li>
                         <li><a href="#">Контакты</a> </li>
-                        <li><a href="/cart">Корзина<span class="badge">${cart.size()}</span></a></li>
+                        <li><a href="/cart">Корзина<span id="cartSize" class="badge">${cart.size()}</span></a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <sec:authorize access="!isAuthenticated()">
@@ -95,17 +94,32 @@
     </div>
 </div>
 
-
 <div class="container">
     <div class="row">
-        <h3>Main</h3>
+        <h3>Cart</h3>
     </div>
 </div>
 
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-lg-9" id="contentContainer">
-
+            <c:forEach items="${cart}" var="advert">
+                <div class="row panel panel-default" id="advertDiv${advert.id}">
+                    <div class="col-md-8 col-lg-9">
+                        Make: ${advert.car.make}<br>
+                        Model: ${advert.car.model}<br>
+                        Price: ${advert.car.price}<br>
+                        Year: ${advert.car.year}<br>
+                        Condition: ${advert.car.condition}<br>
+                        ${advert.description}
+                    </div>
+                    <div class="col-md-4 col-lg-3">
+                        <a href="/advert/${advert.id}">Подробнее</a>
+                        <button class="btn btn-primary removeAdvertFromCart" advert-id="${advert.id}">Remove advert</button>
+                        <div id="removeAdvertFromCartMsg${advert.id}"></div>
+                    </div>
+                </div>
+            </c:forEach>
         </div>
         <div class="col-md-4 col-lg-3" id="rateContainer">
 

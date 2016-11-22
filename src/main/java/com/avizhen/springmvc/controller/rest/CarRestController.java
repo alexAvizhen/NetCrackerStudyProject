@@ -1,4 +1,4 @@
-package com.avizhen.springmvc.controller;
+package com.avizhen.springmvc.controller.rest;
 
 import com.avizhen.service.CarService;
 import com.avizhen.web.jsonview.Views;
@@ -15,7 +15,7 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping(value = "/api")
-public class CarController {
+public class CarRestController {
     @Autowired
     private CarService carService;
 
