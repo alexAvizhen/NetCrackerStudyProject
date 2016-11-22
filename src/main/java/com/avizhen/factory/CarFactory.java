@@ -11,7 +11,7 @@ public class CarFactory {
         resultCar.setModel(model);
         resultCar.setMake(make);
         resultCar.setPrice(999);
-        resultCar.setCarCondition("used");
+        resultCar.setCondition("used");
         resultCar.setYear(2000);
         return resultCar;
     }

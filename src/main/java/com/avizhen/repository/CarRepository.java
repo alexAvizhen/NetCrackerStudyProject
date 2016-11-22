@@ -26,6 +26,5 @@ public interface CarRepository extends PagingAndSortingRepository<Car, Integer> 
     Page<Car> findByPriceBetweenAndYearBetween(int price, int price2, int year1, int year2,
                                                Pageable pageable);
 
-    //Car findTopOrderByPriceDesc();
 
 }

@@ -3,8 +3,10 @@ package com.avizhen.entity;
 import com.avizhen.web.jsonview.Views;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,19 +24,22 @@ public class User {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "login", nullable = false)
-    private String login;
+    @NotNull
+    @Column(name = "username", nullable = false)
+    private String userName;
 
+    @NotNull
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "firstname", nullable = false)
+    private String firstName;
 
     @JsonView(Views.Public.class)
     @Column(name = "surname", nullable = false)
     private String surname;
 
+    @Email
     @JsonView(Views.Public.class)
     @Column(name = "email", nullable = false)
     private String email;
@@ -46,16 +51,25 @@ public class User {
     @Column(name = "phone")
     private String phone;
 
-    @ManyToOne(cascade = {javax.persistence.CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = "role_id")
-    private UserRole role;
-
-
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REFRESH}, mappedBy = "user")
+    private Set<UserRole> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE})
     private Set<Order> orders = new HashSet<Order>();
 
     public User() {
+    }
+
+    public User(User user) {
+        id = user.getId();
+        userName = user.getUserName();
+        password = user.getPassword();
+        firstName = user.getFirstName();
+        surname = user.getSurname();
+        email = user.getEmail();
+        address = user.getAddress();
+        phone = user.getPhone();
+
     }
 
     public Integer getId() {
@@ -66,12 +80,12 @@ public class User {
         this.id = id;
     }
 
-    public String getLogin() {
-        return login;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
@@ -82,12 +96,12 @@ public class User {
         this.password = password;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getSurname() {
@@ -122,12 +136,12 @@ public class User {
         this.phone = phone;
     }
 
-    public UserRole getRole() {
-        return role;
+    public Set<UserRole> getRoles() {
+        return roles;
     }
 
-    public void setRole(UserRole role) {
-        this.role = role;
+    public void setRoles(Set<UserRole> roles) {
+        this.roles = roles;
     }
 
     public Set<Order> getOrders() {
@@ -142,14 +156,14 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", login='" + login + '\'' +
+                ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
+                ", firstName='" + firstName + '\'' +
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
                 ", address='" + address + '\'' +
                 ", phone='" + phone + '\'' +
-                ", role=" + role +
+                ", role=" + roles +
                 '}';
     }
 }

@@ -9,11 +9,12 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta firstName="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Adverts</title>
 
@@ -41,6 +42,8 @@
     <script src='http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js'></script>
 
     <script src="${jqueryNumeric}"></script>
+
+    <script src="/resources/js/lib/parsley.min.js"></script>
 
     <script type="text/javascript" src="<c:url value="/resources/js/app/service/AdvertService.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/app/service/RateService.js" />"></script>
@@ -79,6 +82,30 @@
                         <li><a href="#">Контакты</a></li>
                         <li><a href="#">Корзина<span class="badge">3</span></a></li>
                     </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <sec:authorize access="!isAuthenticated()">
+                            <li>
+                                <a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                            </li>
+                        </sec:authorize>
+                        <sec:authorize access="isAuthenticated()">
+                            <sec:authentication var="user" property="principal" />
+                            <c:if test="${user.userName != null}">
+                                <li id="user-name-label">
+                                    <a>${user.userName} </a>
+                                </li>
+                            </c:if>
+
+                            <li>
+                                <form action="<c:url value="/j_spring_security_logout"/>" method="post" class="navbar-form">
+                                    <button type="submit" class="btn btn-link navbar-btn">
+                                        <span class="glyphicon glyphicon-log-out"></span>
+                                        Logout
+                                    </button>
+                                </form>
+                            </li>
+                        </sec:authorize>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -95,6 +122,17 @@
 <div class="container">
     <div class="row">
         <div  class="col-md-8 col-lg-9">
+            <c:if test="${not empty msg}">
+                <div class="msg">${msg}</div>
+            </c:if>
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
+                <div id="adminAdvertControls">
+                    <form action="/admin/advert/add" method="post">
+                        <input type="submit" class="btn btn-primary" value="Add advert">
+                    </form>
+
+                </div>
+            </sec:authorize>
             <div id="advertContainer">
 
             </div>
@@ -138,34 +176,34 @@
             </div>
 
             <div id="chooseCarContainer">
-                <form id="findCarsForm">
+                <form id="findCarsForm" data-parsley-validate>
                     <div class="form-group">
                         <label for="carMakesSelect">Марка машины</label>
                         <select class="form-control" id="carMakesSelect">
-                            <%--<option>Любая</option>
-                            <c:forEach items="${carMakes}" var="make">
-                                <option>${make}</option>
-                            </c:forEach>--%>
                         </select>
                     </div>
                     <div class="form-group row">
                         <div class="col-lg-6 col-md-6">
                             <label for="priceFrom">Цена от</label>
-                            <input type="text" id="priceFrom" placeholder="цена от" class="positive-integer form-control">
+                            <input type="text" id="priceFrom" placeholder="цена от" class="form-control"
+                                   data-parsley-type="digits" data-parsley-max="2000000000" >
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <label for="priceTo">до (БР)</label>
-                            <input type="text" id="priceTo" placeholder="цена до" class="positive-integer form-control">
+                            <input type="text" id="priceTo" placeholder="цена до" class="form-control"
+                                   data-parsley-type="digits" data-parsley-max="2000000000">
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-lg-6 col-md-6">
                             <label for="yearFrom">Год от</label>
-                            <input type="text" id="yearFrom" placeholder="год от" class="positive-integer form-control">
+                            <input type="text" id="yearFrom" placeholder="год от" class="form-control"
+                                   data-parsley-type="digits" data-parsley-length="[4, 4]">
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <label for="yearTo">до</label>
-                            <input type="text" id="yearTo" placeholder="год до" class="positive-integer form-control">
+                            <input type="text" id="yearTo" placeholder="год до" class="form-control"
+                                   data-parsley-type="digits" data-parsley-length="[4, 4]">
                         </div>
                     </div>
                     <div class="row">
@@ -173,7 +211,7 @@
                             <button type="submit" class="btn btn-primary">Подобрать</button>
                         </div>
                         <div class="col-lg-6 col-md-6">
-                            <button type="button" class="btn btn-primary" id="clearBtn">Очистить</button>
+                            <button type="reset" class="btn btn-primary" <%--id="clearBtn"--%>>Очистить</button>
                         </div>
                     </div>
                 </form>

@@ -1,10 +1,7 @@
 package com.avizhen.config;
 
 import org.hibernate.ejb.HibernatePersistence;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
@@ -26,6 +23,7 @@ import java.util.Properties;
 @ComponentScan("com.avizhen")
 @PropertySource("classpath:app.properties")
 @EnableJpaRepositories("com.avizhen.repository")
+@Import({SecurityConfig.class })
 @EnableSpringDataWebSupport
 public class RootConfig {
     private static final String PROP_DATABASE_DRIVER = "db.driver";
@@ -40,7 +38,7 @@ public class RootConfig {
     @Resource
     private Environment env;
 
-    @Bean
+    @Bean(name = "dataSource")
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 

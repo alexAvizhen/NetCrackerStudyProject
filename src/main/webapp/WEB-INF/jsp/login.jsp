@@ -15,7 +15,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta firstName="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Adverts</title>
+    <title>Main</title>
 
     <c:url var="home" value="/" scope="request" />
 
@@ -29,12 +29,6 @@
                 var="jqueryJs" />
     <script src="${jqueryJs}"></script>
 
-    <script type="text/javascript" src="<c:url value="/resources/js/app/service/CarService.js" />"></script>
-    <script type="text/javascript" src="<c:url value="/resources/js/app/service/AdvertService.js" />"></script>
-    <script type="text/javascript" src="<c:url value="/resources/js/app/controller/AdvertController.js" />"></script>
-
-
-
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -45,7 +39,7 @@
 <body>
 <div class="container">
     <div class="row">
-        <h1>Site firstName</h1>
+        <h1>Site name</h1>
         <div class="navbar navbar-inverse">
             <div class="container">
                 <div class="navbar-header">
@@ -98,29 +92,47 @@
 
 <div class="container">
     <div class="row">
-        <h3>The advert</h3>
+        <h3>Login</h3>
     </div>
 </div>
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-8 col-lg-9" id="advertContainer" advert-id="${advertId}">
-
-        </div>
-        <sec:authorize access="hasRole('ROLE_ADMIN')">
-            <form action="/admin/advert/edit" method="post">
-                <input type="hidden" name="editAdvertId" id="editAdvertId" value="${advertId}">
-                <button type="submit" class="btn btn-primary" id="editAdvert">Edit the advert</button>
-            </form>
-            <form action="/admin/advert/delete" method="post">
-                <input type="hidden" name="deleteAdvertId" id="deleteAdvertId" value="${advertId}">
-                <button type="submit" class="btn btn-danger">Delete the advert</button>
-            </form>
-        </sec:authorize>
-
+    <div class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4">
+        <c:if test="${not empty error}">
+            <div class="error">${error}</div>
+        </c:if>
+        <c:if test="${not empty msg}">
+            <div class="msg">${msg}</div>
+        </c:if>
+        <form method="post" action="<c:url value='/j_spring_security_check' />">
+            <div class="panel panel-default ir-login-panel">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label" for="username">
+                            Username
+                        </label>
+                        <input class="form-control" id="username" name="username" required="required" title="" type="text" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="password">
+                            Password
+                        </label>
+                        <input class="form-control" id="password" name="password" required="required" title="" type="password" />
+                    </div>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" value="login">Login</button>
+                </div>
+            </div>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+        </form>
     </div>
 </div>
 
+<script>
+    $(document).ready(function() {
+        $("#username").focus();
+    });
+
+</script>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

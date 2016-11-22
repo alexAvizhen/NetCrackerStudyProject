@@ -1,9 +1,9 @@
 package com.avizhen.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by Александр on 25.10.2016.
@@ -13,11 +13,18 @@ import javax.persistence.Table;
 public class UserRole {
 
     @Id
+    @GenericGenerator(name="CUST_GEN" , strategy="increment")
+    @GeneratedValue(generator="CUST_GEN")
     @Column(name = "id")
     private Integer id;
 
+    @NotNull
     @Column(name = "role")
     private String role;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public UserRole() {
     }
@@ -36,5 +43,13 @@ public class UserRole {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

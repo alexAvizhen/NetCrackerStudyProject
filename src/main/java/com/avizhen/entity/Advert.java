@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by Александр on 19.10.2016.
@@ -19,7 +20,8 @@ public class Advert {
     @JsonView(Views.Public.class)
     private Integer id;
 
-    @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
+    @NotNull
+    @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE})
     @JoinColumn(name = "car_id")
     @JsonView(Views.Public.class)
     private Car car;

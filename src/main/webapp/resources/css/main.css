@@ -4,5 +4,12 @@ hr {
     height: 3px;
     background-color:darkslategrey;
 }
+.navbar-form {
+    margin: 0 0;
+}
+
+#user-name-label {
+    color: white;
+}
 
 

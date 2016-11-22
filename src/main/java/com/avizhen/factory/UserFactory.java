@@ -1,19 +1,17 @@
 package com.avizhen.factory;
 
 import com.avizhen.entity.User;
-import com.avizhen.enums.UserRoleEnum;
 
 /**
  * Created by Александр on 25.10.2016.
  */
 public class UserFactory {
-    public static User createUser(String name, String surname, UserRoleEnum role) {
+    public static User createUser(String name, String surname) {
         User user = new User();
-        user.setName(name);
+        user.setFirstName(name);
         user.setSurname(surname);
         user.setEmail("testmail@yandex.ru");
-        user.setRole(UserRoleFactory.getUserRole(role));
-        user.setLogin("testlogin");
+        user.setUserName("testlogin");
         user.setPassword("test");
         return user;
 

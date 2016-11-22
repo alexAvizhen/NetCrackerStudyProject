@@ -11,18 +11,15 @@ $(function () {
         var searchCriteria;
         var methods = {
             init: function () {
-                this.showAdverts();
+                this.initAdvert();
                 this.initCarMakesSelect();
-                this.initFormInputs();
+                this.initFormInputClass();
                 this.bindEvents();
             },
-            showAdverts: function () {
+            initAdvert: function () {
                 initSearchCriteria();
-                alert(JSON.stringify(searchCriteria));
                 initOrderCriteria();
-                alert(JSON.stringify(orderCriteria));
                 AdvertService.loadFilteringPageWithOrderedAdverts(orderCriteria, searchCriteria, renderPage);
-
             },
             initCarMakesSelect: function () {
                 CarService.loadCarMakes(function (data) {
@@ -30,7 +27,7 @@ $(function () {
                     renderCarMakesSelect(makes);
                 });
             },
-            initFormInputs: function() {
+            initFormInputClass: function() {
                 $(".positive").numeric({ negative: false },
                     function() { alert("No negative values");
                         this.value = "";
@@ -78,7 +75,6 @@ $(function () {
                     orderCriteria.pageNumber++;
                     AdvertService.loadFilteringPageWithOrderedAdverts(orderCriteria, searchCriteria, renderPage);
                 });
-
             }
         };
 
@@ -200,9 +196,9 @@ $(function () {
             } else {
                 nextPageBtn.attr("disabled", true);
             }
+            var select = $("#pageNumberSelect");
+            select.empty();
             if(page.totalPages > 0) {
-                var select = $("#pageNumberSelect");
-                select.empty();
                 var option;
                 for (var i = 1; i <= +page.totalPages; i++) {
                     if ((i - 1) == +page.number) {
@@ -215,21 +211,6 @@ $(function () {
                 }
             }
 
-        }
-
-        function getCookie(cname) {
-            var name = cname + "=";
-            var ca = document.cookie.split(';');
-            for(var i = 0; i < ca.length; i++) {
-                var c = ca[i];
-                while (c.charAt(0) == ' ') {
-                    c = c.substring(1);
-                }
-                if (c.indexOf(name) == 0) {
-                    return c.substring(name.length, c.length);
-                }
-            }
-            return "";
         }
 
         function removePanel(id) {

@@ -2,6 +2,7 @@ package com.avizhen.service.impl;
 
 import com.avizhen.entity.Advert;
 import com.avizhen.repository.AdvertRepository;
+import com.avizhen.repository.CarRepository;
 import com.avizhen.service.AdvertService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,9 @@ public class AdvertServiceImpl implements AdvertService {
     @Autowired
     private AdvertRepository advertRepository;
 
+    @Autowired
+    private CarRepository carRepository;
+
     @Override
     public List<Advert> findAllAdverts() {
         List<Advert> result = advertRepository.getAll();
@@ -34,6 +38,7 @@ public class AdvertServiceImpl implements AdvertService {
 
     @Override
     public Advert addAdvert(Advert advert) {
+        carRepository.save(advert.getCar());
         return advertRepository.save(advert);
     }
 

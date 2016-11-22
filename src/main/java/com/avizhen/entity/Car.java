@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,6 +17,10 @@ import java.util.Set;
 @Entity
 @Table(name = "car")
 public class Car {
+
+    private static final long CURRENT_YEAR = 2016;
+    private static final long MIN_YEAR = 1800;
+
     @Id
     @GenericGenerator(name="CUST_GEN" , strategy="increment")
     @GeneratedValue(generator="CUST_GEN")
@@ -21,10 +28,12 @@ public class Car {
     @JsonView(Views.Public.class)
     private Integer id;
 
+    @NotNull
     @Column(name = "model", nullable = false)
     @JsonView(Views.Public.class)
     private String model;
 
+    @NotNull
     @Column(name = "make", nullable = false)
     @JsonView(Views.Public.class)
     private String make;
@@ -33,13 +42,16 @@ public class Car {
     @JsonView(Views.Public.class)
     private Integer price;
 
+    @NotNull
     @Column(name = "year")
     @JsonView(Views.Public.class)
+    @Min(MIN_YEAR)
+    @Max(CURRENT_YEAR)
     private int year;
 
     @Column(name = "car_condition")
     @JsonView(Views.Public.class)
-    private String carCondition;
+    private String condition;
 
     @Column(name = "description")
     @JsonView(Views.Public.class)
@@ -57,13 +69,13 @@ public class Car {
     public Car() {
     }
 
-    public Car(String model, String make, Integer price, int year, String carCondition,
+    public Car(String model, String make, Integer price, int year, String condition,
                String description, Set<CarImage> images, Advert advert, Set<Item> items) {
         this.model = model;
         this.make = make;
         this.price = price;
         this.year = year;
-        this.carCondition = carCondition;
+        this.condition = condition;
         this.description = description;
         this.images = images;
         this.advert = advert;
@@ -110,12 +122,12 @@ public class Car {
         this.year = year;
     }
 
-    public String getCarCondition() {
-        return carCondition;
+    public String getCondition() {
+        return condition;
     }
 
-    public void setCarCondition(String car_condition) {
-        this.carCondition = car_condition;
+    public void setCondition(String condition) {
+        this.condition = condition;
     }
 
     public String getDescription() {
@@ -158,7 +170,7 @@ public class Car {
                 ", make='" + make + '\'' +
                 ", price=" + price +
                 ", year=" + year +
-                ", carCondition='" + carCondition + '\'' +
+                ", condition='" + condition + '\'' +
                 ", description='" + description + '\'' +
                 '}';
     }

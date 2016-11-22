@@ -10,8 +10,6 @@ import com.avizhen.web.model.OrderAdvertsCriteria;
 import com.avizhen.web.model.SearchAdvertsCriteria;
 import com.avizhen.web.model.SearchOrderAdvertsCriteria;
 import com.fasterxml.jackson.annotation.JsonView;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,14 +29,12 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api")
 public class AdvertController {
-    private static final Logger LOG = LogManager.getLogger();
 
     @Autowired
     private AdvertService advertService;
 
     @Autowired
     private CarService carService;
-
 
     @RequestMapping(value = "/advert/{advertId}", method = RequestMethod.GET)
     @JsonView(Views.Public.class)
@@ -47,7 +44,7 @@ public class AdvertController {
 
     @RequestMapping(value = "/advert", method = RequestMethod.POST)
     @JsonView(Views.Public.class)
-    public Advert addAdvert(@RequestBody Advert advert) {
+    public Advert addAdvert(@RequestBody @Valid Advert advert) {
         return advertService.addAdvert(advert);
     }
 
@@ -68,19 +65,16 @@ public class AdvertController {
                 searchCriteria.getPriceTo(), pageable);
         List<Advert> advertList = new ArrayList<>();
         for (Car car : carPage.getContent()) {
-            advertList.add(car.getAdvert());
+            Advert advert = car.getAdvert();
+            if (advert != null) {
+                advertList.add(advert);
+            }
         }
         Pageable pageable2 = new PageRequest(orderCriteria.getPageNumber(), orderCriteria.getPageSize(),
                 direction, "car." + orderCriteria.getSortField());
         return new JsonPageResponse<>(advertList, pageable2, carPage.getTotalElements());
-
-
     }
 
-    @RequestMapping(value = "/advert/{advertId}", method = RequestMethod.DELETE)
-    public void removeAdvert(@PathVariable int advertId) {
-        advertService.removeAdvertById(advertId);
-    }
 
 
 }

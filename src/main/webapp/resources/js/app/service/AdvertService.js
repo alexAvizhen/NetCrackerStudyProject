@@ -12,7 +12,22 @@ var AdvertService = (function () {
                     callback(data);
                 },
                 error: function () {
-                    console.error("cannot load adverts");
+                    console.error("cannot load advert");
+                }
+            });
+        },
+        saveAdvert: function (advert, callback, errorcallback) {
+            $.ajax({
+                url: "/api/advert",
+                type: "POST",
+                data: JSON.stringify(advert),
+                dataType : 'json',
+                contentType : "application/json",
+                success: function (data) {
+                    callback(data);
+                },
+                error: function (error) {
+                    errorcallback(error);
                 }
             });
         },

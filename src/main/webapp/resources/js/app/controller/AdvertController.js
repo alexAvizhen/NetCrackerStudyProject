@@ -14,7 +14,7 @@ $(function () {
                     advert = data;
                     render(advert);
                 });
-            }
+            },
 
         };
 
@@ -46,11 +46,9 @@ $(function () {
                 }
             });
 
-
-
             var contentDiv = $('<div>', {class: 'col-md-9 col-lg-9'});
             contentDiv.append("Name: " + car.make + " " + car.model + "<br>");
-            contentDiv.append("Car condition: " + car.carCondition + "<br>");
+            contentDiv.append("Car condition: " + car.condition + "<br>");
             contentDiv.append("Year: " + car.year + "<br>");
             contentDiv.append("Price: " + car.price + " BR <br>");
             contentDiv.append("Car description: " + car.description + "<br>");

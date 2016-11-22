@@ -1,12 +1,10 @@
 package repository;
 
 import com.avizhen.entity.*;
-import com.avizhen.enums.UserRoleEnum;
 import com.avizhen.factory.CarFactory;
 import com.avizhen.factory.OrderFactory;
 import com.avizhen.factory.UserFactory;
 import com.avizhen.repository.*;
-import com.avizhen.service.AdvertService;
 import com.avizhen.service.CarService;
 import com.avizhen.service.impl.CarImageServiceImpl;
 import org.apache.logging.log4j.LogManager;
@@ -17,9 +15,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -40,7 +35,7 @@ import java.sql.SQLException;
 public class TestRepository {
     private static final Logger LOG = LogManager.getLogger();
 
-    private User tempUser = UserFactory.createUser("testname", "testsurname", UserRoleEnum.GUEST);
+    private User tempUser = UserFactory.createUser("testname", "testsurname");
     private Order tempOrder = OrderFactory.createOrder("ready");
     private Car tempCar = CarFactory.createCar("Astra", "Opel");
 
@@ -72,7 +67,6 @@ public class TestRepository {
     @Transactional
     public void testSaveUserAndDelete() {
         LOG.info("Start saving user ...");
-        tempUser.getRole().setRole("dsas");
         userRepository.save(tempUser);
         int userId = tempUser.getId();
         LOG.info("user id: " + userId);
@@ -206,18 +200,13 @@ public class TestRepository {
     private CarService carService;
 
     @Autowired
-    private AdvertService advertService;
+    private UserRoleRepository userRoleRepository;
 
     @Test
     //@Ignore
     //@Transactional
     public void addAdverts() throws IOException, SQLException {
-        Page<Car> page = carService.findByMakeYearBetweenPriceBetween("", 0, 3000, 0, 3000,
-                new PageRequest(0, 3, Sort.Direction.ASC, "year"));
-        for (Car car : page) {
-            System.out.println(car);
-        }
-
+        //carRepository.delete(7);
     }
 
     /*@Resource
