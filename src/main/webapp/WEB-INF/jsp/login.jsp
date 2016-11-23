@@ -15,7 +15,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta firstName="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Main</title>
+    <title>
+        <spring:message code="msg.login"/>
+    </title>
 
     <c:url var="home" value="/" scope="request" />
 
@@ -53,16 +55,26 @@
                 </div>
                 <div class="collapse navbar-collapse" id="responsive-menu">
                     <ul class="nav navbar-nav">
-                        <li><a href="/">Главная</a> </li>
-                        <li><a href="/advert">Объявления</a></li>
-                        <li><a href="#">Акции и скидки</a> </li>
-                        <li><a href="#">Контакты</a> </li>
-                        <li><a href="/cart">Корзина<span class="badge">${cart.size()}</span></a></li>
+                        <li><a href="/"><spring:message code="msg.main"/></a> </li>
+                        <li><a href="/advert"><spring:message code="msg.adverts"/></a></li>
+                        <li><a href="#"><spring:message code="msg.discounts"/></a> </li>
+                        <li><a href="#"><spring:message code="msg.contacts"/></a> </li>
+                        <li><a href="/cart"><spring:message code="msg.cart"/><span class="badge">${cart.size()}</span></a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
+                        <a href="?locale=en">
+                            <spring:message code="msg.en"/>
+                        </a>
+                        |
+                        <a href="?locale=ru">
+                            <spring:message code="msg.ru"/>
+                        </a>
                         <sec:authorize access="!isAuthenticated()">
                             <li>
-                                <a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                                <a href="/login">
+                                    <span class="glyphicon glyphicon-log-in"></span>
+                                    <spring:message code="msg.login"/>
+                                </a>
                             </li>
                         </sec:authorize>
                         <sec:authorize access="isAuthenticated()">
@@ -77,7 +89,7 @@
                                 <form action="<c:url value="/j_spring_security_logout"/>" method="post" class="navbar-form">
                                     <button type="submit" class="btn btn-link navbar-btn">
                                         <span class="glyphicon glyphicon-log-out"></span>
-                                        Logout
+                                        <spring:message code="msg.logout"/>
                                     </button>
                                 </form>
                             </li>
@@ -92,7 +104,7 @@
 
 <div class="container">
     <div class="row">
-        <h3>Login</h3>
+        <h3><spring:message code="msg.login"/></h3>
     </div>
 </div>
 
@@ -109,17 +121,19 @@
                 <div class="panel-body">
                     <div class="form-group">
                         <label class="control-label" for="username">
-                            Username
+                            <spring:message code="msg.username"/>
                         </label>
                         <input class="form-control" id="username" name="username" required="required" title="" type="text" />
                     </div>
                     <div class="form-group">
                         <label class="control-label" for="password">
-                            Password
+                            <spring:message code="msg.password"/>
                         </label>
                         <input class="form-control" id="password" name="password" required="required" title="" type="password" />
                     </div>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit" value="login">Login</button>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" value="login">
+                        <spring:message code="msg.login"/>
+                    </button>
                 </div>
             </div>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />

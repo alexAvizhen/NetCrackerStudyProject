@@ -6,12 +6,13 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <html>
 <head>
-    <title>Page not found</title>
+    <title><spring:message code="msg.pageNotFound"/></title>
 </head>
 <body>
-<h1>Sorry</h1>
-<h1> Page not found</h1>
+<h1><spring:message code="msg.sorry"/></h1>
+<h1> <spring:message code="msg.pageNotFound"/></h1>
 </body>
 </html>

@@ -15,7 +15,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta firstName="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Main</title>
+    <title>
+        <spring:message code="advert.edit"/>
+    </title>
 
     <c:url var="home" value="/" scope="request" />
 
@@ -73,16 +75,26 @@
                 </div>
                 <div class="collapse navbar-collapse" id="responsive-menu">
                     <ul class="nav navbar-nav">
-                        <li><a href="/">Главная</a> </li>
-                        <li><a href="/advert">Объявления</a></li>
-                        <li><a href="#">Акции и скидки</a> </li>
-                        <li><a href="#">Контакты</a> </li>
-                        <li><a href="/cart">Корзина<span class="badge">${cart.size()}</span></a></li>
+                        <li><a href="/"><spring:message code="msg.main"/></a> </li>
+                        <li><a href="/advert"><spring:message code="msg.adverts"/></a></li>
+                        <li><a href="#"><spring:message code="msg.discounts"/></a> </li>
+                        <li><a href="#"><spring:message code="msg.contacts"/></a> </li>
+                        <li><a href="/cart"><spring:message code="msg.cart"/><span class="badge">${cart.size()}</span></a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
+                        <a href="?locale=en">
+                            <spring:message code="msg.en"/>
+                        </a>
+                        |
+                        <a href="?locale=ru">
+                            <spring:message code="msg.ru"/>
+                        </a>
                         <sec:authorize access="!isAuthenticated()">
                             <li>
-                                <a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                                <a href="/login">
+                                    <span class="glyphicon glyphicon-log-in"></span>
+                                    <spring:message code="msg.login"/>
+                                </a>
                             </li>
                         </sec:authorize>
                         <sec:authorize access="isAuthenticated()">
@@ -97,7 +109,7 @@
                                 <form action="<c:url value="/j_spring_security_logout"/>" method="post" class="navbar-form">
                                     <button type="submit" class="btn btn-link navbar-btn">
                                         <span class="glyphicon glyphicon-log-out"></span>
-                                        Logout
+                                        <spring:message code="msg.logout"/>
                                     </button>
                                 </form>
                             </li>
@@ -112,7 +124,7 @@
 
 <div class="container">
     <div class="row">
-        <h3>Edit advert</h3>
+        <h3><spring:message code="msg.edit"/></h3>
     </div>
 </div>
 
@@ -142,50 +154,50 @@
                 </c:if>
                 <div class="form-group">
                     <fieldset>
-                        <legend>Advert</legend>
+                        <legend><spring:message code="advert"/></legend>
                         <label class="control-label" for="advertDescription">
-                            Advert description
+                            <spring:message code="advert.description"/>
                         </label>
                         <input class="form-control" name="advertDescription" id="advertDescription" type="text"/>
                     </fieldset>
                 </div>
                 <div class="form-group">
                     <fieldset>
-                        <legend>Car</legend>
+                        <legend><spring:message code="car"/></legend>
                         <label class="control-label" for="carMake">
-                            Make
+                            <spring:message code="car.make"/>
                         </label>
                         <input class="form-control" name="carMake" id="carMake" type="text" required="required"/>
                         <label class="control-label" for="carModel" >
-                            Model
+                            <spring:message code="car.model"/>
                         </label>
                         <input class="form-control" name="carModel" id="carModel" type="text" required="required"/>
                         <label class="control-label" for="carPrice">
-                            Price
+                            <spring:message code="car.price"/>
                         </label>
                         <input class="form-control" id="carPrice" name="carPrice" type="text"
                                data-parsley-type="digits" data-parsley-max="2000000000"/>
                         <label class="control-label" for="carYear">
-                            Year
+                            <spring:message code="car.year"/>
                         </label>
                         <input class="form-control" id="carYear" name="carPrice" type="text"
                                data-parsley-type="digits" data-parsley-length="[4, 4]" required="required"/>
                         <label class="control-label" for="carCondition">
-                            Condition
+                            <spring:message code="car.condition"/>
                         </label>
                         <input class="form-control" id="carCondition" name="carCondition" type="text" />
                         <label class="control-label" for="carDescription">
-                            Description
+                            <spring:message code="car.description"/>
                         </label>
                         <input class="form-control" id="carDescription" name="carDescription" type="text" />
                     </fieldset>
                 </div>
 
             <c:if test="${not empty advertId}">
-                <input type="submit" class="btn btn-primary" value="Edit">
+                <input type="submit" class="btn btn-primary" value="<spring:message code='msg.edit'/>">
             </c:if>
             <c:if test="${empty advertId}">
-                <input type="submit" class="btn btn-primary" value="Add">
+                <input type="submit" class="btn btn-primary" value="<spring:message code='msg.add'/>">
             </c:if>
             </form>
 

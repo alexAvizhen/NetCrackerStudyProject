@@ -3,7 +3,6 @@ package com.avizhen.entity;
 import com.avizhen.web.jsonview.Views;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -39,7 +38,6 @@ public class User {
     @Column(name = "surname", nullable = false)
     private String surname;
 
-    @Email
     @JsonView(Views.Public.class)
     @Column(name = "email", nullable = false)
     private String email;

@@ -15,7 +15,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta firstName="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Cart</title>
+    <title>
+        <spring:message code="msg.cart"/>
+    </title>
 
     <c:url var="home" value="/" scope="request" />
 
@@ -58,16 +60,31 @@
                 </div>
                 <div class="collapse navbar-collapse" id="responsive-menu">
                     <ul class="nav navbar-nav">
-                        <li><a href="/">Главная</a> </li>
-                        <li><a href="/advert">Объявления</a></li>
-                        <li><a href="#">Акции и скидки</a> </li>
-                        <li><a href="#">Контакты</a> </li>
-                        <li><a href="/cart">Корзина<span id="cartSize" class="badge">${cart.size()}</span></a></li>
+                        <li><a href="/"><spring:message code="msg.main"/></a> </li>
+                        <li><a href="/advert"><spring:message code="msg.adverts"/></a></li>
+                        <li><a href="#"><spring:message code="msg.discounts"/></a> </li>
+                        <li><a href="#"><spring:message code="msg.contacts"/></a> </li>
+                        <li>
+                            <a href="/cart">
+                                <spring:message code="msg.cart"/>
+                                <span id="cartSize" class="badge">${cart.size()}</span>
+                            </a>
+                        </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
+                        <a href="?locale=en">
+                            <spring:message code="msg.en"/>
+                        </a>
+                        |
+                        <a href="?locale=ru">
+                            <spring:message code="msg.ru"/>
+                        </a>
                         <sec:authorize access="!isAuthenticated()">
                             <li>
-                                <a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                                <a href="/login">
+                                    <span class="glyphicon glyphicon-log-in"></span>
+                                    <spring:message code="msg.login"/>
+                                </a>
                             </li>
                         </sec:authorize>
                         <sec:authorize access="isAuthenticated()">
@@ -82,7 +99,7 @@
                                 <form action="<c:url value="/j_spring_security_logout"/>" method="post" class="navbar-form">
                                     <button type="submit" class="btn btn-link navbar-btn">
                                         <span class="glyphicon glyphicon-log-out"></span>
-                                        Logout
+                                        <spring:message code="msg.logout"/>
                                     </button>
                                 </form>
                             </li>
@@ -96,7 +113,7 @@
 
 <div class="container">
     <div class="row">
-        <h3>Cart</h3>
+        <h3><spring:message code="msg.cart"/></h3>
     </div>
 </div>
 
@@ -106,16 +123,18 @@
             <c:forEach items="${cart}" var="advert">
                 <div class="row panel panel-default" id="advertDiv${advert.id}">
                     <div class="col-md-8 col-lg-9">
-                        Make: ${advert.car.make}<br>
-                        Model: ${advert.car.model}<br>
-                        Price: ${advert.car.price}<br>
-                        Year: ${advert.car.year}<br>
-                        Condition: ${advert.car.condition}<br>
+                        <spring:message code="car.make"/>: ${advert.car.make}<br>
+                        <spring:message code="car.model"/>: ${advert.car.model}<br>
+                        <spring:message code="car.price"/>: ${advert.car.price}<br>
+                        <spring:message code="car.year"/>: ${advert.car.year}<br>
+                        <spring:message code="car.condition"/>: ${advert.car.condition}<br>
                         ${advert.description}
                     </div>
                     <div class="col-md-4 col-lg-3">
-                        <a href="/advert/${advert.id}">Подробнее</a>
-                        <button class="btn btn-primary removeAdvertFromCart" advert-id="${advert.id}">Remove advert</button>
+                        <a href="/advert/${advert.id}"><spring:message code="msg.more"/></a>
+                        <button class="btn btn-primary removeAdvertFromCart" advert-id="${advert.id}">
+                            <spring:message code="advert.remove"/>
+                        </button>
                         <div id="removeAdvertFromCartMsg${advert.id}"></div>
                     </div>
                 </div>

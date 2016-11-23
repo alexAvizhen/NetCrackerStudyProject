@@ -5,9 +5,9 @@
   Time: 16:42
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <html lang="en">
 <head>
@@ -59,16 +59,26 @@
                 </div>
                 <div class="collapse navbar-collapse" id="responsive-menu">
                     <ul class="nav navbar-nav">
-                        <li><a href="/">Главная</a> </li>
-                        <li><a href="/advert">Объявления</a></li>
-                        <li><a href="#">Акции и скидки</a> </li>
-                        <li><a href="#">Контакты</a> </li>
-                        <li><a href="/cart">Корзина<span class="badge">${cart.size()}</span></a></li>
+                        <li><a href="/"><spring:message code="msg.main"/></a> </li>
+                        <li><a href="/advert"><spring:message code="msg.adverts"/></a></li>
+                        <li><a href="#"><spring:message code="msg.discounts"/></a> </li>
+                        <li><a href="#"><spring:message code="msg.contacts"/></a> </li>
+                        <li><a href="/cart"><spring:message code="msg.cart"/><span class="badge">${cart.size()}</span></a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
+                        <a href="?locale=en">
+                            <spring:message code="msg.en"/>
+                        </a>
+                        |
+                        <a href="?locale=ru">
+                            <spring:message code="msg.ru"/>
+                        </a>
                         <sec:authorize access="!isAuthenticated()">
                             <li>
-                                <a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                                <a href="/login">
+                                    <span class="glyphicon glyphicon-log-in"></span>
+                                    <spring:message code="msg.login"/>
+                                </a>
                             </li>
                         </sec:authorize>
                         <sec:authorize access="isAuthenticated()">
@@ -83,7 +93,7 @@
                                 <form action="<c:url value="/j_spring_security_logout"/>" method="post" class="navbar-form">
                                     <button type="submit" class="btn btn-link navbar-btn">
                                         <span class="glyphicon glyphicon-log-out"></span>
-                                        Logout
+                                        <spring:message code="msg.logout"/>
                                     </button>
                                 </form>
                             </li>
@@ -98,7 +108,7 @@
 
 <div class="container">
     <div class="row">
-        <h3>Main</h3>
+        <h3><spring:message code="msg.main"/></h3>
     </div>
 </div>
 

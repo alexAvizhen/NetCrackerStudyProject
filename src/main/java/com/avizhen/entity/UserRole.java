@@ -3,7 +3,6 @@ package com.avizhen.entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 /**
  * Created by Александр on 25.10.2016.
@@ -18,7 +17,6 @@ public class UserRole {
     @Column(name = "id")
     private Integer id;
 
-    @NotNull
     @Column(name = "role")
     private String role;
 

@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 /**
  * Created by Александр on 25.10.2016.
@@ -22,7 +21,6 @@ public class CarImage {
     @JsonView(Views.Public.class)
     private Integer id;
 
-    @NotNull
     @Column(name = "car_image", nullable = false)
     @JsonView(Views.Public.class)
     private String carImagePath;

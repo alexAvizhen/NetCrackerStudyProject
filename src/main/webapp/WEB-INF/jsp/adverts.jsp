@@ -16,7 +16,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta firstName="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Adverts</title>
+    <title>
+        <spring:message code="msg.adverts"/>
+    </title>
 
     <c:url var="home" value="/" scope="request"/>
 
@@ -76,16 +78,26 @@
                 </div>
                 <div class="collapse navbar-collapse" id="responsive-menu">
                     <ul class="nav navbar-nav">
-                        <li><a href="/">Главная</a></li>
-                        <li><a href="/advert">Объявления</a></li>
-                        <li><a href="#">Акции и скидки</a></li>
-                        <li><a href="#">Контакты</a></li>
-                        <li><a href="/cart">Корзина<span  class="badge">${cart.size()}</span></a></li>
+                        <li><a href="/"><spring:message code="msg.main"/></a> </li>
+                        <li><a href="/advert"><spring:message code="msg.adverts"/></a></li>
+                        <li><a href="#"><spring:message code="msg.discounts"/></a> </li>
+                        <li><a href="#"><spring:message code="msg.contacts"/></a> </li>
+                        <li><a href="/cart"><spring:message code="msg.cart"/><span class="badge">${cart.size()}</span></a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
+                        <a href="?locale=en">
+                            <spring:message code="msg.en"/>
+                        </a>
+                        |
+                        <a href="?locale=ru">
+                            <spring:message code="msg.ru"/>
+                        </a>
                         <sec:authorize access="!isAuthenticated()">
                             <li>
-                                <a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                                <a href="/login">
+                                    <span class="glyphicon glyphicon-log-in"></span>
+                                    <spring:message code="msg.login"/>
+                                </a>
                             </li>
                         </sec:authorize>
                         <sec:authorize access="isAuthenticated()">
@@ -100,7 +112,7 @@
                                 <form action="<c:url value="/j_spring_security_logout"/>" method="post" class="navbar-form">
                                     <button type="submit" class="btn btn-link navbar-btn">
                                         <span class="glyphicon glyphicon-log-out"></span>
-                                        Logout
+                                        <spring:message code="msg.logout"/>
                                     </button>
                                 </form>
                             </li>
@@ -115,7 +127,7 @@
 
 <div class="container">
     <div class="row">
-        <h3>Adverts</h3>
+        <h3><spring:message code="msg.adverts"/></h3>
     </div>
 </div>
 
@@ -128,7 +140,7 @@
             <sec:authorize access="hasRole('ROLE_ADMIN')">
                 <div id="adminAdvertControls">
                     <form action="/admin/advert/add" method="post">
-                        <input type="submit" class="btn btn-primary" value="Add advert">
+                        <input type="submit" class="btn btn-primary" value="<spring:message code='advert.add'/>">
                     </form>
 
                 </div>
@@ -139,12 +151,12 @@
             <div id="advertPaginationControls" class="row">
                 <div class="col-md-3 col-lg-3 col-md-offset-3 col-lg-offset-3">
                     <button class="btn btn-primary" id="prevPageBtn" disabled>
-                        Предыдущая
+                        <spring:message code="page.prev"/>
                     </button>
                 </div>
                 <div class="col-md-2 col-lg-2">
                     <button class="btn btn-primary" id="nextPageBtn" disabled>
-                        Следующая
+                        <spring:message code="page.next"/>
                     </button>
                 </div>
                 <div class="col-md-2 col-lg-2">
@@ -156,7 +168,7 @@
         </div>
         <div class="col-md-4 col-lg-3">
             <div>
-                <h3>Объявлений на странице</h3>
+                <h3><spring:message code="advert.perPage"/></h3>
                 <select id="pageSizeSelect">
                     <option>2</option>
                     <option selected>5</option>
@@ -165,12 +177,20 @@
                     <option>20</option>
                 </select>
                 <hr>
-                <h3>Порядок</h3>
+                <h3><spring:message code="msg.order"/></h3>
                 <select id="sortAdvertSelect">
-                    <option field="price" direction="asc">Сначала дешёвые</option>
-                    <option field="price" direction="desc">Сначала дорогие</option>
-                    <option field="year" direction="desc">Сначала новые</option>
-                    <option field="year" direction="asc">Сначала старые</option>
+                    <option field="price" direction="asc">
+                        <spring:message code="msg.firstCheap"/>
+                    </option>
+                    <option field="price" direction="desc">
+                        <spring:message code="msg.firstExpensive"/>
+                    </option>
+                    <option field="year" direction="desc">
+                        <spring:message code="msg.firstNew"/>
+                    </option>
+                    <option field="year" direction="asc">
+                        <spring:message code="msg.firstOld"/>
+                    </option>
                 </select>
                 <hr>
             </div>
@@ -178,40 +198,52 @@
             <div id="chooseCarContainer">
                 <form id="findCarsForm" data-parsley-validate>
                     <div class="form-group">
-                        <label for="carMakesSelect">Марка машины</label>
+                        <label for="carMakesSelect"><spring:message code="car.make"/></label>
                         <select class="form-control" id="carMakesSelect">
                         </select>
                     </div>
                     <div class="form-group row">
                         <div class="col-lg-6 col-md-6">
-                            <label for="priceFrom">Цена от</label>
-                            <input type="text" id="priceFrom" placeholder="цена от" class="form-control"
-                                   data-parsley-type="digits" data-parsley-max="2000000000" >
+                            <label for="priceFrom">
+                                <spring:message code="price.from"/>
+                            </label>
+                            <input type="text" id="priceFrom" placeholder="<spring:message code='price.from'/>"
+                                   class="form-control" data-parsley-type="digits" data-parsley-max="2000000000" >
                         </div>
                         <div class="col-lg-6 col-md-6">
-                            <label for="priceTo">до (БР)</label>
-                            <input type="text" id="priceTo" placeholder="цена до" class="form-control"
-                                   data-parsley-type="digits" data-parsley-max="2000000000">
+                            <label for="priceTo">
+                                <spring:message code="price.to"/>
+                            </label>
+                            <input type="text" id="priceTo" placeholder="<spring:message code='price.to'/>"
+                                   class="form-control" data-parsley-type="digits" data-parsley-max="2000000000">
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-lg-6 col-md-6">
-                            <label for="yearFrom">Год от</label>
-                            <input type="text" id="yearFrom" placeholder="год от" class="form-control"
-                                   data-parsley-type="digits" data-parsley-length="[4, 4]">
+                            <label for="yearFrom">
+                                <spring:message code="year.from"/>
+                            </label>
+                            <input type="text" id="yearFrom" placeholder="<spring:message code='year.from'/>"
+                                   class="form-control" data-parsley-type="digits" data-parsley-length="[4, 4]">
                         </div>
                         <div class="col-lg-6 col-md-6">
-                            <label for="yearTo">до</label>
-                            <input type="text" id="yearTo" placeholder="год до" class="form-control"
-                                   data-parsley-type="digits" data-parsley-length="[4, 4]">
+                            <label for="yearTo">
+                                <spring:message code="year.to"/>
+                            </label>
+                            <input type="text" id="yearTo" placeholder="<spring:message code='year.to'/>"
+                                   class="form-control" data-parsley-type="digits" data-parsley-length="[4, 4]">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-6 col-md-6">
-                            <button type="submit" class="btn btn-primary">Подобрать</button>
+                            <button type="submit" class="btn btn-primary">
+                                <spring:message code="msg.find"/>
+                            </button>
                         </div>
                         <div class="col-lg-6 col-md-6">
-                            <button type="reset" class="btn btn-primary" <%--id="clearBtn"--%>>Очистить</button>
+                            <button type="reset" class="btn btn-primary" <%--id="clearBtn"--%>>
+                                <spring:message code="msg.clear"/>
+                            </button>
                         </div>
                     </div>
                 </form>
