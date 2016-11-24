@@ -10,6 +10,8 @@ $(function () {
                 this.showRates();
             },
             showRates: function () {
+                var lang = $("#locale").val();
+                setLang(lang, function() {});
                 RateService.loadRates(function (data) {
                     rates = data;
                     render(rates);
@@ -50,12 +52,24 @@ $(function () {
                 myDate = new Date(rates[0].Date);
             }
             var dateStr = myDate.getDate() + "." + (myDate.getMonth()+1) + "." + myDate.getFullYear();
-            tableTitle.append("Курсы валют НБ РБ (" + dateStr + ")");
+            var rateExchange = $.i18n.prop('rates.headerInfo');
+            tableTitle.append(rateExchange + " (" + dateStr + ")");
             var table = createTable(rates, "rate1");
             $('#rateContainer').append(tableTitle);
             $('#rateContainer').append(table);
         }
 
+        function setLang(lang, callback) {
+            $.i18n.properties({
+                name: 'msg',
+                path: 'resources/i18n/',
+                mode: 'map',
+                language: lang,
+                callback: function() {
+                    callback();
+                }
+            });
+        }
 
         return methods;
     }());

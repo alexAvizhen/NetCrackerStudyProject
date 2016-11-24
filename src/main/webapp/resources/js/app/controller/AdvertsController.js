@@ -13,10 +13,11 @@ $(function () {
             init: function () {
                 this.initAdvert();
                 this.initCarMakesSelect();
-                this.initFormInputClass();
                 this.bindEvents();
             },
             initAdvert: function () {
+                var lang = $("#locale").val();
+                setLang(lang, function() {});
                 initSearchCriteria();
                 initOrderCriteria();
                 AdvertService.loadFilteringPageWithOrderedAdverts(orderCriteria, searchCriteria, renderPage);
@@ -27,20 +28,10 @@ $(function () {
                     renderCarMakesSelect(makes);
                 });
             },
-            initFormInputClass: function() {
-                $(".positive").numeric({ negative: false },
-                    function() { alert("No negative values");
-                        this.value = "";
-                        this.focus();
-                    });
-                $(".positive-integer").numeric({ decimal: false, negative: false },
-                    function() { alert("Positive integers only");
-                        this.value = "";
-                        this.focus(); });
-            },
             bindEvents: function () {
                 $('#clearBtn').click(function(e) {
-                    $('#carMakesSelect').val("Любая");
+                    var anyMake = $.i18n.prop('make.any');
+                    $('#carMakesSelect').val(anyMake);
                     $('#priceFrom').val("");
                     $('#priceTo').val("");
                     $('#yearFrom').val("");
@@ -83,7 +74,7 @@ $(function () {
             adverts = page.content;
             renderAdverts(page);
             renderPaginationControls(page);
-        };
+        }
 
         function createPanel(advert, advertIndex) {
             var $panel = $('<div>', {class: 'panel panel-default', id: 'panel' + advert.id});
@@ -104,8 +95,8 @@ $(function () {
                     imageDiv.append(image);
                 }
             });
-
-            $link.append("Подробнее");
+            var more = $.i18n.prop('msg.more');
+            $link.append(more);
 
             var indexDiv = $('<div>', {class: 'col-md-1 col-lg-1'});
             indexDiv.append("<h2>" + advertIndex + "</h2>");
@@ -116,8 +107,9 @@ $(function () {
             var contentDiv = $('<div>', {class: 'col-md-5 col-lg-6'});
             contentDiv.append(car.make + " " + car.model + "<br>");
             contentDiv.append(advert.description + "<br>");
-            contentDiv.append("Year: " + car.year + "<br>");
-            contentDiv.append(car.price + " BR <br>");
+            contentDiv.append($.i18n.prop('car.year') + ": " + car.year + "<br>");
+            var br = $.i18n.prop('currency.br');
+            contentDiv.append(car.price + " " + br + "<br>");
             $content.append(contentDiv);
 
             var linkDiv = $('<div>', {class: 'col-md-2 col-lg-2'});
@@ -142,7 +134,8 @@ $(function () {
         function renderCarMakesSelect(makes) {
             $('#carMakesSelect').empty();
             var $option = $('<option>', {value: "defaultValue"});
-            $option.append("Любая");
+            var anyMake = $.i18n.prop('make.any');
+            $option.append(anyMake);
             $('#carMakesSelect').append($option);
             makes.forEach(function(make) {
                 $option = $('<option>');
@@ -156,7 +149,8 @@ $(function () {
                 searchCriteria = {};
             }
             var make = $("#carMakesSelect option:selected").text();
-            make = make == "Любая" ? "" : make;
+            var anyMake = $.i18n.prop('make.any');
+            make = make == anyMake ? "" : make;
             searchCriteria.make = make;
             var yearFrom = $("#yearFrom").val();
             yearFrom = yearFrom == "" ? -1 : +yearFrom;
@@ -211,6 +205,18 @@ $(function () {
                 }
             }
 
+        }
+
+        function setLang(lang, callback) {
+            $.i18n.properties({
+                name: 'msg',
+                path: 'resources/i18n/',
+                mode: 'map',
+                language: lang,
+                callback: function() {
+                    callback();
+                }
+            });
         }
 
         function removePanel(id) {

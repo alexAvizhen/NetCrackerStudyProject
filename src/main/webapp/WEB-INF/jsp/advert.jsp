@@ -27,9 +27,17 @@
     <link href="${bootstrapCss}" rel="stylesheet" />
     <link href="${coreCss}" rel="stylesheet" />
 
-    <spring:url value="/resources/js/lib/jquery.1.10.2.min.js"
-                var="jqueryJs" />
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/resources/js/lib/bootstrap.js"></script>
+
+    <spring:url value="/resources/js/lib/jquery.1.10.2.min.js" var="jqueryJs" />
+    <spring:url value="/resources/js/lib/jquery.i18n.properties-min-1.0.9.js" var="jqueryi18n"/>
+
     <script src="${jqueryJs}"></script>
+
+    <script src="${jqueryi18n}"></script>
 
     <script type="text/javascript" src="<c:url value="/resources/js/app/service/CarService.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/app/service/AdvertService.js" />"></script>
@@ -81,6 +89,7 @@
                         <a href="?locale=ru">
                             <spring:message code="msg.ru"/>
                         </a>
+                        <input type="hidden" id="locale" value="${pageContext.response.locale}"/>
                         <sec:authorize access="!isAuthenticated()">
                             <li>
                                 <a href="/login">
@@ -150,9 +159,5 @@
 </div>
 
 
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="/resources/js/lib/bootstrap.js"></script>
 </body>
 </html>

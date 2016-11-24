@@ -11,6 +11,8 @@ $(function () {
                 this.bindEvents();
             },
             showAdvert: function () {
+                var lang = $("#locale").val();
+                setLang(lang, function() {});
                 AdvertService.loadAdvert($("#advertContainer").attr("advert-id"), function (data) {
                     advert = data;
                     render(advert);
@@ -24,7 +26,8 @@ $(function () {
                         $("#cartSize").empty();
                         $("#cartSize").append(data);
                         $("#addAdvertToCartMsg").empty();
-                        $("#addAdvertToCartMsg").append("<p>Advert was added</p>");
+                        var advertWasAdded = $.i18n.prop('advert.wasAdded');
+                        $("#addAdvertToCartMsg").append("<p>" + advertWasAdded + "</p>");
                     });
                 });
             }
@@ -60,21 +63,34 @@ $(function () {
             });
 
             var contentDiv = $('<div>', {class: 'col-md-9 col-lg-9'});
-            contentDiv.append("Name: " + car.make + " " + car.model + "<br>");
-            contentDiv.append("Car condition: " + car.condition + "<br>");
-            contentDiv.append("Year: " + car.year + "<br>");
-            contentDiv.append("Price: " + car.price + " BR <br>");
-            contentDiv.append("Car description: " + car.description + "<br>");
-            contentDiv.append("Advert description: " + advert.description + "<br>");
+            contentDiv.append( $.i18n.prop('car.make')+ ": " + car.make + "<br>");
+            contentDiv.append($.i18n.prop('car.model')+ ": " + car.model + "<br>");
+            contentDiv.append($.i18n.prop('car.condition')+ ": " + car.condition + "<br>");
+            contentDiv.append($.i18n.prop('car.year')+ ": " + car.year + "<br>");
+            contentDiv.append($.i18n.prop('car.price')+ ": " + car.price + " BR <br>");
+            contentDiv.append($.i18n.prop('car.description')+ ": " + car.description + "<br>");
+            contentDiv.append($.i18n.prop('advert.description')+ ": " + advert.description + "<br>");
             $content.append(contentDiv);
-
-            $content.append("<div class='col-md-9 col-lg-9'><h3> Car images </h3></div>")
+            var carImages = $.i18n.prop('car.images')
+            $content.append("<div class='col-md-9 col-lg-9'><h3>" + carImages + "</h3></div>")
             $content.append(imageDiv1);
             $content.append(imageDiv2);
 
             $body.append($content);
             $panel.append($body);
             return $panel;
+        }
+
+        function setLang(lang, callback) {
+            $.i18n.properties({
+                name: 'msg',
+                path: '../resources/i18n/',
+                mode: 'map',
+                language: lang,
+                callback: function() {
+                    callback();
+                }
+            });
         }
 
         function render(advert) {

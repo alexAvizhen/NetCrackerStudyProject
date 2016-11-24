@@ -32,7 +32,9 @@
                 var="jqueryJs"/>
     <spring:url value="/resources/js/lib/jquery.numeric.js"
                 var="jqueryNumeric"/>
-    <script src="${jqueryJs}"></script>
+
+    <spring:url value="/resources/js/lib/jquery.i18n.properties-min-1.0.9.js" var="jqueryi18n"/>
+
 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
 
@@ -46,6 +48,7 @@
     <script src="${jqueryNumeric}"></script>
 
     <script src="/resources/js/lib/parsley.min.js"></script>
+    <script src="${jqueryi18n}"></script>
 
     <script type="text/javascript" src="<c:url value="/resources/js/app/service/AdvertService.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/app/service/RateService.js" />"></script>
@@ -85,13 +88,14 @@
                         <li><a href="/cart"><spring:message code="msg.cart"/><span class="badge">${cart.size()}</span></a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <a href="?locale=en">
+                        <a href="?locale=en" id="localeEn">
                             <spring:message code="msg.en"/>
                         </a>
                         |
-                        <a href="?locale=ru">
+                        <a href="?locale=ru" id="localeRu">
                             <spring:message code="msg.ru"/>
                         </a>
+                        <input type="hidden" id="locale" value="${pageContext.response.locale}"/>
                         <sec:authorize access="!isAuthenticated()">
                             <li>
                                 <a href="/login">
