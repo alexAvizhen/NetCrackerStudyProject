@@ -5,6 +5,7 @@ import com.avizhen.factory.CarFactory;
 import com.avizhen.factory.OrderFactory;
 import com.avizhen.factory.UserFactory;
 import com.avizhen.repository.*;
+import com.avizhen.restws.service.RateService;
 import com.avizhen.service.CarService;
 import com.avizhen.service.impl.CarImageServiceImpl;
 import org.apache.logging.log4j.LogManager;
@@ -202,10 +203,17 @@ public class TestRepository {
     @Autowired
     private UserRoleRepository userRoleRepository;
 
+    @Autowired
+    private RateService rateService;
+
     @Test
     //@Ignore
     //@Transactional
     public void addAdverts() throws IOException, SQLException {
+        System.out.println(rateService.convertPriceTo(1000, "EUR"));
+        System.out.println(rateService.convertPriceTo(1000, "USD"));
+        System.out.println(rateService.convertPriceTo(1000, "RUB"));
+
     }
 
     /*@Resource

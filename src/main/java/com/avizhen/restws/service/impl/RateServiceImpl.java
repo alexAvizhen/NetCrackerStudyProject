@@ -6,10 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Александр on 29.10.2016.
@@ -43,6 +40,17 @@ public class RateServiceImpl implements RateService {
                     id + "?onDate=" + localDate, Rate.class));
         }
         return result;
+    }
+
+    @Override
+    public Set<String> getAllCurrencyAbbreviation() {
+        return currencyAbbreviationToId.keySet();
+    }
+
+    @Override
+    public double convertPriceTo(double price, String abbr) {
+        Rate rate = getRate(abbr, LocalDate.now());
+        return price / rate.getCur_OfficialRate() * rate.getCur_Scale();
     }
 
     public void addCurrencyAbbreviation(String currencyAbbreviation, int id) {

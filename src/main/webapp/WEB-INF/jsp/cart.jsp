@@ -27,6 +27,10 @@
     <link href="${bootstrapCss}" rel="stylesheet" />
     <link href="${coreCss}" rel="stylesheet" />
 
+    <spring:url value="/resources/css/font-awesome.css" var="fontAwesomeCss" />
+    <link href="${fontAwesomeCss}" rel="stylesheet" />
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -100,7 +104,10 @@
                             <sec:authentication var="user" property="principal" />
                             <c:if test="${user.userName != null}">
                                 <li id="user-name-label">
-                                    <a>${user.userName} </a>
+                                    <a>
+                                        <span class="glyphicon glyphicon-user"></span>
+                                        ${user.userName}
+                                    </a>
                                 </li>
                             </c:if>
 
@@ -134,7 +141,8 @@
                     <div class="col-md-8 col-lg-9">
                         <spring:message code="car.make"/>: ${advert.car.make}<br>
                         <spring:message code="car.model"/>: ${advert.car.model}<br>
-                        <spring:message code="car.price"/>: ${advert.car.price}<br>
+                        <spring:message code="car.price"/>: ${advert.car.price}
+                        <spring:message code="currency.br"/><br>
                         <spring:message code="car.year"/>: ${advert.car.year}<br>
                         <spring:message code="car.condition"/>: ${advert.car.condition}<br>
                         ${advert.description}
@@ -155,6 +163,18 @@
     </div>
 </div>
 
+
+<div class="container" id="footer">
+    <hr />
+    <div class="text-center center-block">
+        <p class="txt-railway">- avizhen.com -</p>
+        <br />
+        <a href="https://vk.com/alex_avizhen"><i class="fa fa fa-vk fa-3x social"></i></a>
+        <a href="https://plus.google.com/116724968968879958223"><i class="fa fa-google-plus-square fa-3x social"></i></a>
+        <a href="mailto:alex.avizhen97@gmail.com"><i class="fa fa-envelope-square fa-3x social"></i></a>
+    </div>
+    <hr />
+</div>
 
 
 

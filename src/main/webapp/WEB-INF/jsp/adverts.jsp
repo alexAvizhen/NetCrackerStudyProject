@@ -28,6 +28,10 @@
     <link href="${bootstrapCss}" rel="stylesheet"/>
     <link href="${coreCss}" rel="stylesheet"/>
 
+    <spring:url value="/resources/css/font-awesome.css" var="fontAwesomeCss" />
+    <link href="${fontAwesomeCss}" rel="stylesheet" />
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
     <spring:url value="/resources/js/lib/jquery.1.10.2.min.js"
                 var="jqueryJs"/>
     <spring:url value="/resources/js/lib/jquery.numeric.js"
@@ -49,6 +53,12 @@
 
     <script src="/resources/js/lib/parsley.min.js"></script>
     <script src="${jqueryi18n}"></script>
+    <script src="/resources/js/i18n/ru.js"></script>
+    <script>
+        $( document ).ready(function() {
+            window.Parsley.setLocale($("#locale").val());
+        });
+    </script>
 
     <script type="text/javascript" src="<c:url value="/resources/js/app/service/AdvertService.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/app/service/RateService.js" />"></script>
@@ -65,6 +75,9 @@
 </head>
 <body>
 <div class="container">
+    <input type="hidden" id="pageCont" value="${pageContext}">
+    <input type="hidden" id="pageScope" value="${pageScope}">
+    <input type="hidden" id="req" value="${requestScope}">
     <div class="row">
         <h1>Site name</h1>
 
@@ -108,7 +121,10 @@
                             <sec:authentication var="user" property="principal" />
                             <c:if test="${user.userName != null}">
                                 <li id="user-name-label">
-                                    <a>${user.userName} </a>
+                                    <a>
+                                        <span class="glyphicon glyphicon-user"></span>
+                                        ${user.userName}
+                                    </a>
                                 </li>
                             </c:if>
 
@@ -141,6 +157,9 @@
             <c:if test="${not empty msg}">
                 <div class="msg">${msg}</div>
             </c:if>
+            <h2>
+                ${param.msg}
+            </h2>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
                 <div id="adminAdvertControls">
                     <form action="/admin/advert/add" method="post">
@@ -180,7 +199,7 @@
                     <option>15</option>
                     <option>20</option>
                 </select>
-                <hr>
+                <hr class="myHr">
                 <h3><spring:message code="msg.order"/></h3>
                 <select id="sortAdvertSelect">
                     <option field="price" direction="asc">
@@ -196,7 +215,7 @@
                         <spring:message code="msg.firstOld"/>
                     </option>
                 </select>
-                <hr>
+                <hr class="myHr">
             </div>
 
             <div id="chooseCarContainer">
@@ -252,13 +271,25 @@
                     </div>
                 </form>
             </div>
-            <hr>
+            <hr class="myHr">
 
             <div id="rateContainer">
 
             </div>
         </div>
     </div>
+</div>
+
+<div class="container" id="footer">
+    <hr />
+    <div class="text-center center-block">
+        <p class="txt-railway">- avizhen.com -</p>
+        <br />
+        <a href="https://vk.com/alex_avizhen"><i class="fa fa fa-vk fa-3x social"></i></a>
+        <a href="https://plus.google.com/116724968968879958223"><i class="fa fa-google-plus-square fa-3x social"></i></a>
+        <a href="mailto:alex.avizhen97@gmail.com"><i class="fa fa-envelope-square fa-3x social"></i></a>
+    </div>
+    <hr />
 </div>
 
 </body>

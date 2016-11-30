@@ -44,6 +44,9 @@ public class AdvertServiceImpl implements AdvertService {
 
     @Override
     public void removeAdvertById(int advertId) {
+        if (advertRepository.findOne(advertId) == null) {
+            return;
+        }
         advertRepository.delete(advertId);
     }
 

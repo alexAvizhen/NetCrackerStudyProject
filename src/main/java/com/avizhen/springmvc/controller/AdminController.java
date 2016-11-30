@@ -21,15 +21,18 @@ public class AdminController {
     @RequestMapping(value = "/advert/delete", method = RequestMethod.POST)
     public ModelAndView removeAdvert(@RequestParam("deleteAdvertId") int deleteAdvertId) {
         advertService.removeAdvertById(deleteAdvertId);
-        ModelAndView modelAndView = new ModelAndView("adverts");
+        ModelAndView modelAndView = new ModelAndView("redirect:/advert");
         modelAndView.addObject("msg", "Advert was deleted successful");
         return modelAndView;
     }
 
     @RequestMapping(value = "/advert/edit", method = RequestMethod.POST)
     public ModelAndView editAdvert(@RequestParam("editAdvertId") int editAdvertId) {
-        Advert advert = advertService.findAdvertById(editAdvertId);
         ModelAndView modelAndView = new ModelAndView("editAdvert");
+        Advert advert = advertService.findAdvertById(editAdvertId);
+        if (advert == null) {
+            return modelAndView;
+        }
         modelAndView.addObject("advertId", advert.getId());
         modelAndView.addObject("carId", advert.getCar().getId());
         return modelAndView;

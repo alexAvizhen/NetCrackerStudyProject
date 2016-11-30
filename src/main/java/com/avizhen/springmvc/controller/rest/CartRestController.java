@@ -23,6 +23,9 @@ public class CartRestController {
     @JsonView(Views.Public.class)
     public int addAdvertToCart(@RequestBody int advertId, @ModelAttribute("cart") List<Advert> cart) {
         Advert advert = advertService.findAdvertById(advertId);
+        if (advert == null) {
+            return -1;
+        }
         cart.add(advert);
         return cart.size();
     }

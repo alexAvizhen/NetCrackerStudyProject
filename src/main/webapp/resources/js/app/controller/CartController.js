@@ -12,6 +12,11 @@ $(function () {
                 $(".removeAdvertFromCart").click(function(e) {
                     var advertId = this.getAttribute("advert-id");
                     CartService.removeAdvertFromCart(advertId, function(data) {
+                        if(+data == -1) {
+                            $("#removeAdvertFromCartMsg" + advertId).empty();
+                            $("#removeAdvertFromCartMsg" + advertId).append("advert wasn't found");
+                            return;
+                        }
                         $("#cartSize").empty();
                         $("#cartSize").append(data);
                         $("#removeAdvertFromCartMsg" + advertId).empty();
